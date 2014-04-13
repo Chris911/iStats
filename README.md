@@ -1,7 +1,7 @@
 iStats
 ======
 
-Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature. After a few tries I couldn't get the IOKit framework to load properly and for now this gem doesn't work.
+Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature.
 
 ## Installation
 
@@ -28,4 +28,3 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-

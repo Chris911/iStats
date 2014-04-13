@@ -1,6 +1,6 @@
 /*
  * Apple System Management Control (SMC) Tool
- * Copyright (C) 2006 devnull 
+ * Copyright (C) 2006 devnull
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +19,7 @@
 
 #ifndef __SMC_H__
 #define __SMC_H__
+#include "ruby.h"
 #endif
 
 #define VERSION               "0.01"
@@ -46,7 +47,7 @@ typedef struct {
     char                  major;
     char                  minor;
     char                  build;
-    char                  reserved[1]; 
+    char                  reserved[1];
     UInt16                release;
 } SMCKeyData_vers_t;
 
@@ -64,11 +65,11 @@ typedef struct {
     char                  dataAttributes;
 } SMCKeyData_keyInfo_t;
 
-typedef char              SMCBytes_t[32]; 
+typedef char              SMCBytes_t[32];
 
 typedef struct {
-  UInt32                  key; 
-  SMCKeyData_vers_t       vers; 
+  UInt32                  key;
+  SMCKeyData_vers_t       vers;
   SMCKeyData_pLimitData_t pLimitData;
   SMCKeyData_keyInfo_t    keyInfo;
   char                    result;
@@ -89,7 +90,8 @@ typedef struct {
 
 
 // prototypes
+void Init_osx_cpu_temp();
+VALUE method_get_cpu_temp(VALUE self);
 double SMCGetTemperature(char *key);
 kern_return_t SMCSetFanRpm(char *key, int rpm);
 int SMCGetFanRpm(char *key);
-

@@ -1,6 +1,6 @@
 /*
- * Apple System Management Control (SMC) Tool 
- * Copyright (C) 2006 devnull 
+ * Apple System Management Control (SMC) Tool
+ * Copyright (C) 2006 devnull
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ UInt32 _strtoul(char *str, int size, int base)
 void _ultostr(char *str, UInt32 val)
 {
     str[0] = '\0';
-    sprintf(str, "%c%c%c%c", 
+    sprintf(str, "%c%c%c%c",
             (unsigned int) val >> 24,
             (unsigned int) val >> 16,
             (unsigned int) val >> 8,
@@ -167,11 +167,25 @@ double SMCGetTemperature(char *key)
     return 0.0;
 }
 
-int main(int argc, char *argv[])
-{
-    SMCOpen();
-    printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
-    SMCClose();
+// int main(int argc, char *argv[])
+// {
+//     SMCOpen();
+//     printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
+//     SMCClose();
+//
+//     return 0;
+// }
 
-    return 0;
+VALUE CPU_TEMP = Qnil;
+void Init_osx_cpu_temp() {
+	CPU_TEMP = rb_define_module("CPU_TEMP");
+	rb_define_method(CPU_TEMP, "get_cpu_temp", method_get_cpu_temp, 0);
+}
+
+VALUE method_get_cpu_temp(VALUE self) {
+  SMCOpen();
+	double temp = SMCGetTemperature(SMC_KEY_CPU_TEMP);
+  SMCClose();
+
+  return rb_float_new(temp);
 }
