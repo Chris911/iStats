@@ -1,7 +1,7 @@
 iStats
 ======
 
-Ruby gem for your mac stats
+Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature. After a few tries I couldn't get the IOKit framework to load properly and for now this gem doesn't work.
 
 ## Installation
 
