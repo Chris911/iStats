@@ -1,7 +1,8 @@
+require 'osx_stats/osx_stats'
+
 require 'iStats/version'
 require 'iStats/command'
-
-require 'osx-cpu-temp/osx_cpu_temp'
+require 'iStats/cpu'
 
 module IStats
 end

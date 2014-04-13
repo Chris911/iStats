@@ -90,7 +90,7 @@ typedef struct {
 
 
 // prototypes
-void Init_osx_cpu_temp();
+void Init_osx_stats();
 VALUE method_get_cpu_temp(VALUE self);
 double SMCGetTemperature(char *key);
 kern_return_t SMCSetFanRpm(char *key, int rpm);

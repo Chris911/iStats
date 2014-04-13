@@ -1,6 +1,8 @@
 require 'mkmf'
 
-extension_name = 'osx_cpu_temp'
+extension_name = 'osx_stats'
+
+CONFIG['LDSHARED'] << ' -framework IOKit '
 
 # The destination
 dir_config(extension_name)

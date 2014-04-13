@@ -176,10 +176,10 @@ double SMCGetTemperature(char *key)
 //     return 0;
 // }
 
-VALUE CPU_TEMP = Qnil;
-void Init_osx_cpu_temp() {
-	CPU_TEMP = rb_define_module("CPU_TEMP");
-	rb_define_method(CPU_TEMP, "get_cpu_temp", method_get_cpu_temp, 0);
+VALUE CPU_STATS = Qnil;
+void Init_osx_stats() {
+	CPU_STATS = rb_define_module("CPU_STATS");
+	rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
