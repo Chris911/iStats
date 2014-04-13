@@ -8,6 +8,7 @@ module IStats
         category = args.empty? ? 'all' : args.shift
         stat     = args.empty? ? 'all' : args.shift
 
+        parse_options
         delegate(category, stat)
       end
 
@@ -25,6 +26,31 @@ module IStats
       def all
         # Exec all
         Cpu.all
+      end
+
+      # Public: Parse extra options
+      #
+      # returns nothing
+      def parse_options
+        o = OptionParser.new do |opts|
+          opts.on('-v', '--version', 'Print Version') do
+            puts "iStats v#{IStats::VERSION}"
+            quit
+          end
+          opts.on('-h', '--help', 'Print Help') do
+            help
+            quit
+          end
+        end
+        begin
+          o.parse!
+        rescue OptionParser::MissingArgument => e
+          help e.message
+          quit
+        rescue OptionParser::InvalidOption => e
+          help e.message
+          quit
+        end
       end
 
       # Public: Prints help.
@@ -46,6 +72,13 @@ module IStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line
 
         puts text
+      end
+
+      # Public: Quit / Exit program
+      #
+      # Returns nothing
+      def quit
+        exit(1)
       end
     end
   end
