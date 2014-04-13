@@ -1,5 +1,7 @@
-require "iStats/version"
+require 'iStats/version'
+require 'iStats/command'
+
+require 'osx-cpu-temp/osx-cpu-temp'
 
 module IStats
-  # Your code goes here...
 end
