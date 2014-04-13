@@ -4,6 +4,8 @@ module IStats
   class Cpu
     extend CPU_STATS
     class << self
+      include IStats::Color
+
       def delegate(stat)
         case stat
         when 'all'
@@ -20,7 +22,25 @@ module IStats
       end
 
       def cpu_temperature
-        puts "CPU temp: #{get_cpu_temp}°C"
+        t = get_cpu_temp
+        message = "CPU temp: #{t}°C  "
+        list = [0, 30, 55, 80, 100, 130]
+        sparkline = Sparkr.sparkline(list) do |tick, count, index|
+          if index.between?(0, 5) and t > 90
+            flash_red(tick)
+          elsif index.between?(0, 1)
+            green(tick)
+          elsif index.between?(2, 3) and t > 50
+            light_yellow(tick)
+          elsif index == 4 and t > 70
+            yellow(tick)
+          elsif index == 5 and t > 80
+            red(tick)
+          else
+            tick
+          end
+        end
+        puts message + sparkline
       end
     end
   end

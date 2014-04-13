@@ -3,9 +3,11 @@ require 'osx_stats/osx_stats'
 
 # Gems
 require 'optparse'
+require 'sparkr'
 
 # Internal
 require 'iStats/version'
+require 'iStats/color'
 require 'iStats/command'
 require 'iStats/cpu'
 

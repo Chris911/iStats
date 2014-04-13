@@ -2,6 +2,7 @@ module IStats
   # Main point of entry for `istats` command-line tool
   class Command
     class << self
+      include IStats::Color
 
       def execute(*args)
         # Default command is 'all'
@@ -58,7 +59,7 @@ module IStats
       # Returns nothing.
       def help(error = nil)
         text =
-        " #{error.nil? ? '' : "\n[Error] #{error}\n"}
+        " #{error.nil? ? '' : red("\n[Error] #{error}\n")}
           - iStats: help ---------------------------------------------------
 
           istats --help                            This help text
