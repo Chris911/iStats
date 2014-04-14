@@ -36,7 +36,7 @@ module IStats
       def fans_speed
         fanNum = fan_number
         (0..(fanNum-1)).each do |n|
-          s = get_fan_speed(0)
+          s = get_fan_speed(n)
           print_fan_speed(n, s)
         end
       end
