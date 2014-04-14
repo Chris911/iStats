@@ -40,6 +40,24 @@ UInt32 _strtoul(char *str, int size, int base)
     return total;
 }
 
+float _strtof(unsigned char *str, int size, int e)
+{
+    float total = 0;
+    int i;
+
+    for (i = 0; i < size; i++)
+    {
+        if (i == (size - 1))
+            total += (str[i] & 0xff) >> e;
+        else
+            total += str[i] << (size - 1 - i) * (8 - e);
+    }
+
+	total += (str[size-1] & 0x03) * 0.25;
+
+    return total;
+}
+
 void _ultostr(char *str, UInt32 val)
 {
     str[0] = '\0';
@@ -167,19 +185,36 @@ double SMCGetTemperature(char *key)
     return 0.0;
 }
 
+float SMCGetFanSpeed(char *key)
+{
+    SMCVal_t val;
+    kern_return_t result;
+
+    result = SMCReadKey(key, &val);
+    return _strtof(val.bytes, val.dataSize, 2);
+}
+
 // int main(int argc, char *argv[])
 // {
 //     SMCOpen();
-//     printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
+//     //printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
+//     printf("%0.1f°C\n", SMCGetFanSpeed(SMC_KEY_FAN_SPEED));
 //     SMCClose();
 //
 //     return 0;
 // }
 
+//
+// RUBY MODULE
+//
 VALUE CPU_STATS = Qnil;
+VALUE FAN_STATS = Qnil;
 void Init_osx_stats() {
 	CPU_STATS = rb_define_module("CPU_STATS");
 	rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
+
+  FAN_STATS = rb_define_module("FAN_STATS");
+  rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 0);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
@@ -188,4 +223,12 @@ VALUE method_get_cpu_temp(VALUE self) {
   SMCClose();
 
   return rb_float_new(temp);
+}
+
+VALUE method_get_fan_speed(VALUE self) {
+  SMCOpen();
+  float speed = SMCGetFanSpeed(SMC_KEY_FAN_SPEED);
+  SMCClose();
+
+  return rb_float_new(speed);
 }
