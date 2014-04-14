@@ -18,9 +18,10 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+  spec.require_paths = ["lib", "ext"]
 
-  spec.extensions = Rake::FileList["ext/**/extconf.rb"]
+  spec.platform = Gem::Platform::RUBY
+  spec.extensions = Dir["ext/**/extconf.rb"]
 
   spec.add_dependency "sparkr"
 
