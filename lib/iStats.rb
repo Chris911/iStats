@@ -8,6 +8,7 @@ require 'sparkr'
 # Internal
 require 'iStats/version'
 require 'iStats/color'
+require 'iStats/symbols'
 require 'iStats/command'
 require 'iStats/cpu'
 
