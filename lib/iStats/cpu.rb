@@ -32,7 +32,7 @@ module IStats
             green(tick)
           elsif index.between?(2, 3) and t > 50
             light_yellow(tick)
-          elsif index == 4 and t > 70
+          elsif index == 4 and t > 68
             yellow(tick)
           elsif index == 5 and t > 80
             red(tick)
