@@ -1,5 +1,5 @@
 # Extensions (C libs)
-require 'osx_stats/osx_stats'
+require 'osx_stats'
 
 # Gems
 require 'optparse'
