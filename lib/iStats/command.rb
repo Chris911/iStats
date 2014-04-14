@@ -19,6 +19,8 @@ module IStats
           all
         when 'cpu'
           Cpu.delegate stat
+        when 'fan'
+          Fan.delegate stat
         else
           help("Unknown category: #{category}")
         end
@@ -26,7 +28,10 @@ module IStats
 
       def all
         # Exec all
+        puts "--- CPU Stats ---\n"
         Cpu.all
+        puts "\n--- Fan Stats ---\n"
+        Fan.all
       end
 
       # Public: Parse extra options
@@ -68,6 +73,8 @@ module IStats
           istats all                               Print all stats
           istats cpu                               Print all CPU stats
           istats cpu [temp | temperature]          Print CPU temperature
+          istats fan                               Print all fan stats
+          istats fan [speed]                       Print fan speed
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

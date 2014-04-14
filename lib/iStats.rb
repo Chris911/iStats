@@ -11,6 +11,7 @@ require 'iStats/color'
 require 'iStats/symbols'
 require 'iStats/command'
 require 'iStats/cpu'
+require 'iStats/fan'
 
 module IStats
   def self.options
