@@ -3,22 +3,15 @@ iStats
 
 Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature. Will expand to more hardware data and stats in the future. 
 
-__Note:__ Currently requires ruby 2.0.0 and above. 
+#### Tested on
+MacBook Pro 2012<br>
+OS X 10.9.2<br>
+Ruby: 1.9.3, 2.0.0, 2.1.1<br>
 
 ## Screenshot
 ![](http://i.imgur.com/ht2NZCL.gif)
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'iStats'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install iStats
 
