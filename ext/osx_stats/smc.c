@@ -223,35 +223,35 @@ int SMCGetFanNumber(char *key)
 VALUE CPU_STATS = Qnil;
 VALUE FAN_STATS = Qnil;
 void Init_osx_stats() {
-	CPU_STATS = rb_define_module("CPU_STATS");
-	rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
+    CPU_STATS = rb_define_module("CPU_STATS");
+    rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
 
-  FAN_STATS = rb_define_module("FAN_STATS");
-  rb_define_method(FAN_STATS, "get_fan_number", method_get_fan_number, 0);
-  rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 1);
+    FAN_STATS = rb_define_module("FAN_STATS");
+    rb_define_method(FAN_STATS, "get_fan_number", method_get_fan_number, 0);
+    rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 1);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
-  SMCOpen();
-	double temp = SMCGetTemperature(SMC_KEY_CPU_TEMP);
-  SMCClose();
+    SMCOpen();
+    double temp = SMCGetTemperature(SMC_KEY_CPU_TEMP);
+    SMCClose();
 
-  return rb_float_new(temp);
+    return rb_float_new(temp);
 }
 
 VALUE method_get_fan_number(VALUE self) {
-  SMCOpen();
-  int num = SMCGetFanNumber(SMC_KEY_FAN_NUM);
-  SMCClose();
+    SMCOpen();
+    int num = SMCGetFanNumber(SMC_KEY_FAN_NUM);
+    SMCClose();
 
-  return INT2NUM(num);
+    return INT2NUM(num);
 }
 
 VALUE method_get_fan_speed(VALUE self, VALUE num) {
-  uint fanNum = NUM2UINT(num);
-  SMCOpen();
-  float speed = SMCGetFanSpeed(fanNum);
-  SMCClose();
+    uint fanNum = NUM2UINT(num);
+    SMCOpen();
+    float speed = SMCGetFanSpeed(fanNum);
+    SMCClose();
 
-  return rb_float_new(speed);
+    return rb_float_new(speed);
 }
