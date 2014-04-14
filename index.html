@@ -31,7 +31,7 @@
           <h1>
 <a name="istats" class="anchor" href="#istats"><span class="octicon octicon-link"></span></a>iStats</h1>
 
-<p>Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature. Will expand to more hardware data and stats in the future. </p>
+<p>Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature and fan speed. Will expand to more hardware data and stats in the future. </p>
 
 <h4>
 <a name="tested-on" class="anchor" href="#tested-on"><span class="octicon octicon-link"></span></a>Tested on</h4>
@@ -42,6 +42,14 @@ Ruby: 1.9.3, 2.0.0, 2.1.1<br></p>
 
 <h2>
 <a name="screenshot" class="anchor" href="#screenshot"><span class="octicon octicon-link"></span></a>Screenshot</h2>
+
+<h4>
+<a name="all-stats" class="anchor" href="#all-stats"><span class="octicon octicon-link"></span></a>All Stats</h4>
+
+<p><img src="http://i.imgur.com/pNZwCmg.png" alt=""></p>
+
+<h4>
+<a name="sparkline-levels" class="anchor" href="#sparkline-levels"><span class="octicon octicon-link"></span></a>Sparkline levels</h4>
 
 <p><img src="http://i.imgur.com/ht2NZCL.gif" alt=""></p>
 
@@ -54,16 +62,18 @@ Ruby: 1.9.3, 2.0.0, 2.1.1<br></p>
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<pre><code>     - iStats: help ---------------------------------------------------
+<pre><code>  - iStats: help ---------------------------------------------------
 
-     istats --help                            This help text
-     istats --version                         Print current version
+  istats --help                            This help text
+  istats --version                         Print current version
 
-     istats all                               Print all stats
-     istats cpu                               Print all CPU stats
-     istats cpu [temp | temperature]          Print CPU temperature
+  istats all                               Print all stats
+  istats cpu                               Print all CPU stats
+  istats cpu [temp | temperature]          Print CPU temperature
+  istats fan                               Print all fan stats
+  istats fan [speed]                       Print fan speed
 
-     for more help see: https://github.com/Chris911/iStats
+  for more help see: https://github.com/Chris911/iStats
 </code></pre>
 
 <h2>
