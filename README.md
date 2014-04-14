@@ -3,6 +3,8 @@ iStats
 
 Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature. Will expand to more hardware data and stats in the future. 
 
+__Note:__ Currently only works for Ruby 2.0. Working on a new gem that will work on 1.9, 2.0 and 2.1.
+
 ## Screenshot
 ![](http://i.imgur.com/ht2NZCL.gif)
 
