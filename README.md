@@ -1,4 +1,4 @@
-iStats
+iStats [![Gem Version](https://badge.fury.io/rb/iStats.svg)](http://badge.fury.io/rb/iStats)
 ======
 
 Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature and fan speed. Will expand to more hardware data and stats in the future. 
