@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    iStats (0.0.2)
+    iStats (0.0.3)
       sparkr
 
 GEM
