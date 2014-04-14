@@ -41,7 +41,8 @@
 
 // key values
 #define SMC_KEY_CPU_TEMP      "TC0P"
-#define SMC_KEY_FAN_SPEED     "F1Ac"
+#define SMC_KEY_FAN_SPEED     "F%dAc"
+#define SMC_KEY_FAN_NUM       "FNum"
 
 
 typedef struct {
@@ -91,12 +92,12 @@ typedef struct {
 
 
 // prototypes
-float SMCGetFanSpeed(char *key);
+float SMCGetFanSpeed(int fanNum);
+int SMCGetFanNumber(char *key);
 double SMCGetTemperature(char *key);
-kern_return_t SMCSetFanRpm(char *key, int rpm);
-int SMCGetFanRpm(char *key);
 
 // Ruby modules
 void Init_osx_stats();
 VALUE method_get_cpu_temp(VALUE self);
-VALUE method_get_fan_speed(VALUE self);
+VALUE method_get_fan_speed(VALUE self, VALUE num);
+VALUE method_get_fan_number(VALUE self);

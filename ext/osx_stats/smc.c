@@ -185,20 +185,33 @@ double SMCGetTemperature(char *key)
     return 0.0;
 }
 
-float SMCGetFanSpeed(char *key)
+float SMCGetFanSpeed(int fanNum)
+{
+    SMCVal_t val;
+    kern_return_t result;
+
+    UInt32Char_t  key;
+    sprintf(key, SMC_KEY_FAN_SPEED, fanNum);
+    result = SMCReadKey(key, &val);
+    return _strtof(val.bytes, val.dataSize, 2);
+}
+
+int SMCGetFanNumber(char *key)
 {
     SMCVal_t val;
     kern_return_t result;
 
     result = SMCReadKey(key, &val);
-    return _strtof(val.bytes, val.dataSize, 2);
+    return _strtoul((char *)val.bytes, val.dataSize, 10);
 }
 
 // int main(int argc, char *argv[])
 // {
 //     SMCOpen();
 //     //printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
-//     printf("%0.1f°C\n", SMCGetFanSpeed(SMC_KEY_FAN_SPEED));
+//     //printf("%0.1f\n", SMCGetFanSpeed(0));
+//     //printf("%0.1f\n", SMCGetFanSpeed(3));
+//     //printf("%i\n", SMCGetFanNumber(SMC_KEY_FAN_NUM));
 //     SMCClose();
 //
 //     return 0;
@@ -214,7 +227,8 @@ void Init_osx_stats() {
 	rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
 
   FAN_STATS = rb_define_module("FAN_STATS");
-  rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 0);
+  rb_define_method(FAN_STATS, "get_fan_number", method_get_fan_number, 0);
+  rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 1);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
@@ -225,9 +239,18 @@ VALUE method_get_cpu_temp(VALUE self) {
   return rb_float_new(temp);
 }
 
-VALUE method_get_fan_speed(VALUE self) {
+VALUE method_get_fan_number(VALUE self) {
   SMCOpen();
-  float speed = SMCGetFanSpeed(SMC_KEY_FAN_SPEED);
+  int num = SMCGetFanNumber(SMC_KEY_FAN_NUM);
+  SMCClose();
+
+  return INT2NUM(num);
+}
+
+VALUE method_get_fan_speed(VALUE self, VALUE num) {
+  uint fanNum = NUM2UINT(num);
+  SMCOpen();
+  float speed = SMCGetFanSpeed(fanNum);
   SMCClose();
 
   return rb_float_new(speed);
