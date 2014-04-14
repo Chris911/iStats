@@ -1,7 +1,10 @@
 iStats
 ======
 
-Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature.
+Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature. Will expand to more hardware data and stats in the future. 
+
+## Screenshot
+![](http://i.imgur.com/ht2NZCL.gif)
 
 ## Installation
 
@@ -19,7 +22,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+     - iStats: help ---------------------------------------------------
+
+     istats --help                            This help text
+     istats --version                         Print current version
+
+     istats all                               Print all stats
+     istats cpu                               Print all CPU stats
+     istats cpu [temp | temperature]          Print CPU temperature
+
+     for more help see: https://github.com/Chris911/iStats
+```
 
 ## Contributing
 
