@@ -11,16 +11,16 @@ MacBook Pro 2012<br>
 OS X 10.9.2<br>
 Ruby: 1.9.3, 2.0.0, 2.1.1<br>
 
+## Installation
+
+    $ gem install iStats
+
 ## Screenshot
 #### All Stats
 ![](http://i.imgur.com/pNZwCmg.png)
 
 #### Sparkline levels
 ![](http://i.imgur.com/ht2NZCL.gif)
-
-## Installation
-
-    $ gem install iStats
 
 ## Usage
 
