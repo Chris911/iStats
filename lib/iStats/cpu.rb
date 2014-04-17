@@ -1,11 +1,14 @@
+# CPU Stats
+# Extend CPU_STATS C module (ext/osx_stats/smc.c)
+#
 module IStats
-  # CPU Stats
-  # Extend CPU_STATS C module (ext/osx_stats/smc.c)
   class Cpu
     extend CPU_STATS
     class << self
       include IStats::Color
 
+      # Delegate CLI command to function
+      #
       def delegate(stat)
         case stat
         when 'all'
@@ -17,10 +20,15 @@ module IStats
         end
       end
 
+      # Call all functions (stats)
+      #
       def all
         cpu_temperature
       end
 
+      # Print CPU temperature with sparkline
+      # TODO: Move sparkline function to printer class
+      #
       def cpu_temperature
         t = get_cpu_temp
         message = "CPU temp: #{t}#{Symbols.degree}C  "

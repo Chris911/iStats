@@ -205,23 +205,16 @@ int SMCGetFanNumber(char *key)
     return _strtoul((char *)val.bytes, val.dataSize, 10);
 }
 
-// int main(int argc, char *argv[])
-// {
-//     SMCOpen();
-//     //printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
-//     //printf("%0.1f\n", SMCGetFanSpeed(0));
-//     //printf("%0.1f\n", SMCGetFanSpeed(3));
-//     //printf("%i\n", SMCGetFanNumber(SMC_KEY_FAN_NUM));
-//     SMCClose();
-//
-//     return 0;
-// }
+/*
+ RUBY MODULES
+*/
 
-//
-// RUBY MODULE
-//
 VALUE CPU_STATS = Qnil;
 VALUE FAN_STATS = Qnil;
+/*
+ * Define Ruby modules and associated methods
+ * We never call this, Ruby does.
+*/
 void Init_osx_stats() {
 	CPU_STATS = rb_define_module("CPU_STATS");
 	rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
@@ -255,3 +248,16 @@ VALUE method_get_fan_speed(VALUE self, VALUE num) {
 
   return rb_float_new(speed);
 }
+
+/* Main method used for test */
+// int main(int argc, char *argv[])
+// {
+//     SMCOpen();
+//     //printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
+//     //printf("%0.1f\n", SMCGetFanSpeed(0));
+//     //printf("%0.1f\n", SMCGetFanSpeed(3));
+//     //printf("%i\n", SMCGetFanNumber(SMC_KEY_FAN_NUM));
+//     SMCClose();
+//
+//     return 0;
+// }

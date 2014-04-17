@@ -1,11 +1,14 @@
+# Fan Stats
+# Extend FAN_STATS C module (ext/osx_stats/smc.c)
+#
 module IStats
-  # Fan Stats
-  # Extend FAN_STATS C module (ext/osx_stats/smc.c)
   class Fan
     extend FAN_STATS
     class << self
       include IStats::Color
 
+      # Delegate CLI command to function
+      #
       def delegate(stat)
         case stat
         when 'all'
@@ -19,20 +22,28 @@ module IStats
         end
       end
 
+      # Call all functions (stats)
+      #
       def all
         print_fan_number
         fans_speed
       end
 
+      # Get the number of fans on system
+      # Calls a C method from FAN_STATS module
+      #
       def fan_number
-        # C method
         get_fan_number
       end
 
+      # Print number of fan(s)
+      #
       def print_fan_number
-        puts "Total fans on system: #{fan_number}"
+        puts "Total fans in system: #{fan_number}"
       end
 
+      # Get and print the speed of each fan
+      #
       def fans_speed
         fanNum = fan_number
         (0..(fanNum-1)).each do |n|
@@ -41,6 +52,12 @@ module IStats
         end
       end
 
+      # Actually print fan speed with Sparkline
+      # TODO: Move sparkline function to printer class
+      #
+      # fanNum - The fan number
+      # speed  - Fan speed in RPM
+      #
       def print_fan_speed(fanNum, speed)
         message = "Fan #{fanNum} speed: #{speed} RPM  "
         list = [0, 30, 55, 80, 100, 130]

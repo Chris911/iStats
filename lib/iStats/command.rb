@@ -4,6 +4,10 @@ module IStats
     class << self
       include IStats::Color
 
+      # Executes a command
+      #
+      # args - Command line arguments
+      #
       def execute(*args)
         # Default command is 'all'
         category = args.empty? ? 'all' : args.shift
@@ -13,6 +17,11 @@ module IStats
         delegate(category, stat)
       end
 
+      # Delegate command to proper class
+      #
+      # category - Hardware we are targeting (CPU, fan, etc.)
+      # stat     - The stat we want
+      #
       def delegate(category, stat)
         case category
         when 'all'
@@ -26,8 +35,9 @@ module IStats
         end
       end
 
+      # Execute all the stats methodes for all modules
+      #
       def all
-        # Exec all
         puts "--- CPU Stats ---\n"
         Cpu.all
         puts "\n--- Fan Stats ---\n"
