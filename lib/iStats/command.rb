@@ -89,6 +89,7 @@ module IStats
           istats cpu [temp | temperature]          Print CPU temperature
           istats fan                               Print all fan stats
           istats fan [speed]                       Print fan speed
+          istats battery                           Print all battery stats
           istats battery [health]                  Print battery health
           istats battery [cycleCount | cc]         Print battery cycle count info
 
