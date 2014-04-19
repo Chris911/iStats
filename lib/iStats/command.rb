@@ -90,7 +90,7 @@ module IStats
           istats fan                               Print all fan stats
           istats fan [speed]                       Print fan speed
           istats battery [health]                  Print battery health
-          istats battery [designCycleCount | dcc]  Print battery design cycle count
+          istats battery [cycleCount | cc]         Print battery cycle count info
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line
