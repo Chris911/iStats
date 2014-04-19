@@ -30,6 +30,8 @@ module IStats
           Cpu.delegate stat
         when 'fan'
           Fan.delegate stat
+        when 'battery'
+          Battery.delegate stat
         else
           help("Unknown category: #{category}")
         end
@@ -42,6 +44,8 @@ module IStats
         Cpu.all
         puts "\n--- Fan Stats ---\n"
         Fan.all
+        puts "\n--- Battery Stats ---\n"
+        Battery.all
       end
 
       # Public: Parse extra options
@@ -85,6 +89,8 @@ module IStats
           istats cpu [temp | temperature]          Print CPU temperature
           istats fan                               Print all fan stats
           istats fan [speed]                       Print fan speed
+          istats battery [health]                  Print battery health
+          istats battery [designCycleCount | dcc]  Print battery design cycle count
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

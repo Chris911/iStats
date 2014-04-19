@@ -2,7 +2,7 @@ require 'mkmf'
 
 extension_name = 'osx_stats'
 
-CONFIG['LDSHARED'] << ' -framework IOKit '
+CONFIG['LDSHARED'] << ' -framework IOKit -framework CoreFoundation '
 
 # The destination
 dir_config(extension_name)

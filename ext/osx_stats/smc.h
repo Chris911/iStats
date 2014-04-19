@@ -20,6 +20,7 @@
 #ifndef __SMC_H__
 #define __SMC_H__
 #include "ruby.h"
+#include <CoreFoundation/CoreFoundation.h>
 #endif
 
 #define VERSION               "0.01"
@@ -90,14 +91,20 @@ typedef struct {
   SMCBytes_t              bytes;
 } SMCVal_t;
 
-
 // prototypes
 float SMCGetFanSpeed(int fanNum);
 int SMCGetFanNumber(char *key);
 double SMCGetTemperature(char *key);
+const char* getBatteryHealth();
+int getDesignCycleCount();
+CFTypeRef IOPSCopyPowerSourcesInfo(void);
+CFArrayRef IOPSCopyPowerSourcesList(CFTypeRef blob);
+CFDictionaryRef IOPSGetPowerSourceDescription(CFTypeRef blob, CFTypeRef ps);
 
 // Ruby modules
 void Init_osx_stats();
 VALUE method_get_cpu_temp(VALUE self);
 VALUE method_get_fan_speed(VALUE self, VALUE num);
 VALUE method_get_fan_number(VALUE self);
+VALUE method_get_battery_health(VALUE self);
+VALUE method_get_battery_design_cycle_count(VALUE self);

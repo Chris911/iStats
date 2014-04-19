@@ -205,12 +205,85 @@ int SMCGetFanNumber(char *key)
     return _strtoul((char *)val.bytes, val.dataSize, 10);
 }
 
+/* Battery info
+ * Ref: http://www.newosxbook.com/src.jl?tree=listings&file=bat.c
+ *      https://developer.apple.com/library/mac/documentation/IOKit/Reference/IOPowerSources_header_reference/Reference/reference.html
+ */
+void dumpDict (CFDictionaryRef Dict)
+{
+    // Helper function to just dump a CFDictioary as XML
+    CFDataRef xml = CFPropertyListCreateXMLData(kCFAllocatorDefault, (CFPropertyListRef)Dict);
+    if (xml) { write(1, CFDataGetBytePtr(xml), CFDataGetLength(xml)); CFRelease(xml); }
+}
+
+CFDictionaryRef powerSourceInfo(int Debug)
+{
+    CFTypeRef       powerInfo;
+    CFArrayRef      powerSourcesList;
+    CFDictionaryRef powerSourceInformation;
+
+    powerInfo = IOPSCopyPowerSourcesInfo();
+
+    if(! powerInfo) return NULL;
+
+    powerSourcesList = IOPSCopyPowerSourcesList(powerInfo);
+    if(!powerSourcesList) {
+        CFRelease(powerInfo);
+        return NULL;
+    }
+
+    // Should only get one source. But in practice, check for > 0 sources
+    if (CFArrayGetCount(powerSourcesList))
+    {
+		powerSourceInformation = IOPSGetPowerSourceDescription(powerInfo, CFArrayGetValueAtIndex(powerSourcesList, 0));
+
+		if (Debug) dumpDict (powerSourceInformation);
+
+        //CFRelease(powerInfo);
+        //CFRelease(powerSourcesList);
+        return powerSourceInformation;
+    }
+
+    CFRelease(powerInfo);
+    CFRelease(powerSourcesList);
+    return NULL;
+}
+
+int getDesignCycleCount() {
+    CFDictionaryRef powerSourceInformation = powerSourceInfo(0);
+
+    if(powerSourceInformation == NULL)
+        return 0;
+
+    CFNumberRef designCycleCountRef = (CFNumberRef)  CFDictionaryGetValue(powerSourceInformation, CFSTR("DesignCycleCount"));
+    uint32_t    designCycleCount;
+    if ( ! CFNumberGetValue(designCycleCountRef,  // CFNumberRef number,
+                            kCFNumberSInt32Type,  // CFNumberType theType,
+                            &designCycleCount))   // void *valuePtr);
+        return 0;
+    else
+        return designCycleCount;
+}
+
+const char* getBatteryHealth() {
+    CFDictionaryRef powerSourceInformation = powerSourceInfo(0);
+
+    if(powerSourceInformation == NULL)
+        return "Unknown";
+
+    CFStringRef batteryHealthRef = (CFStringRef) CFDictionaryGetValue(powerSourceInformation, CFSTR("BatteryHealth"));
+
+    const char *batteryHealth = CFStringGetCStringPtr(batteryHealthRef, // CFStringRef theString,
+                                                kCFStringEncodingMacRoman); //CFStringEncoding encoding);
+    return batteryHealth;
+}
+
 /*
  RUBY MODULES
 */
-
 VALUE CPU_STATS = Qnil;
 VALUE FAN_STATS = Qnil;
+VALUE BATTERY_STATS = Qnil;
 /*
  * Define Ruby modules and associated methods
  * We never call this, Ruby does.
@@ -222,6 +295,10 @@ void Init_osx_stats() {
     FAN_STATS = rb_define_module("FAN_STATS");
     rb_define_method(FAN_STATS, "get_fan_number", method_get_fan_number, 0);
     rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 1);
+
+    BATTERY_STATS = rb_define_module("BATTERY_STATS");
+    rb_define_method(BATTERY_STATS, "get_battery_health", method_get_battery_health, 0);
+    rb_define_method(BATTERY_STATS, "get_battery_design_cycle_count", method_get_battery_design_cycle_count, 0);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
@@ -249,15 +326,31 @@ VALUE method_get_fan_speed(VALUE self, VALUE num) {
     return rb_float_new(speed);
 }
 
+VALUE method_get_battery_health(VALUE self) {
+    const char* health = getBatteryHealth();
+    return rb_str_new2(health);
+}
+
+VALUE method_get_battery_design_cycle_count(VALUE self) {
+    int cc = getDesignCycleCount();
+    return INT2NUM(cc);
+}
+
 /* Main method used for test */
 // int main(int argc, char *argv[])
 // {
-//     SMCOpen();
+//     //SMCOpen();
 //     //printf("%0.1f°C\n", SMCGetTemperature(SMC_KEY_CPU_TEMP));
 //     //printf("%0.1f\n", SMCGetFanSpeed(0));
 //     //printf("%0.1f\n", SMCGetFanSpeed(3));
 //     //printf("%i\n", SMCGetFanNumber(SMC_KEY_FAN_NUM));
-//     SMCClose();
+//     //SMCClose();
+//
+//     int designCycleCount = getDesignCycleCount();
+//     const char* batteryHealth = getBatteryHealth();
+//
+//   	if (designCycleCount) printf ("%i\n", designCycleCount);
+//     if (batteryHealth) printf ("%s\n", batteryHealth);
 //
 //     return 0;
 // }

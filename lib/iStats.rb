@@ -12,6 +12,7 @@ require 'iStats/symbols'
 require 'iStats/command'
 require 'iStats/cpu'
 require 'iStats/fan'
+require 'iStats/battery'
 
 module IStats
   def self.options
