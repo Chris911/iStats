@@ -17,7 +17,7 @@ Ruby: 1.9.3, 2.0.0, 2.1.1<br>
 
 ## Screenshot
 #### All Stats
-![](http://i.imgur.com/pNZwCmg.png)
+![](http://i.imgur.com/f3tCnnW.png)
 
 #### Sparkline levels
 ![](http://i.imgur.com/ht2NZCL.gif)
@@ -35,6 +35,9 @@ Ruby: 1.9.3, 2.0.0, 2.1.1<br>
   istats cpu [temp | temperature]          Print CPU temperature
   istats fan                               Print all fan stats
   istats fan [speed]                       Print fan speed
+  istats battery                           Print all battery stats
+  istats battery [health]                  Print battery health
+  istats battery [cycleCount | cc]         Print battery cycle count info
 
   for more help see: https://github.com/Chris911/iStats
 ```
