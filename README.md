@@ -1,7 +1,7 @@
 iStats [![Gem Version](https://badge.fury.io/rb/iStats.svg)](http://badge.fury.io/rb/iStats)
 ======
 
-Quick attempt at writing a Ruby wrapper for a small C library that interacts with the IOKit library (apple) to get the CPU temperature and fan speed. Will expand to more hardware data and stats in the future.
+iStats is a command-line tool that allows you to easily grap the CPU temperature, fan speeds and battery information on OS X. If you'd like to see more data available feel free to open an issue. 
 
 #### Warning
 A [bug in Ruby](https://bugs.ruby-lang.org/issues/9624) and Apple XCode 5.1 onwards (new CLANG version) might make it impossible to install this gem if you are using Ruby from the Xcode command-line tools package. If you are using RVM or homebrew to manage your Ruby installation you should be fine.
