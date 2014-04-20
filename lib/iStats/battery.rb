@@ -42,7 +42,7 @@ module IStats
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
           thresholds = [45, 65, 85, 95]
-          puts "Cycle count: #{cycle_count}  " + Printer.print_sparkline(percentage, thresholds)
+          puts "Cycle count: #{cycle_count}  " + Printer.gen_sparkline(percentage, thresholds)
           puts "Max cycle count: #{max_cycle_count}"
         end
       end

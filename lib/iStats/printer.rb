@@ -3,12 +3,12 @@ module IStats
     class << self
       include IStats::Color
 
-      # Print sparkline
+      # Create colored sparkline
       # value      - The stat value
       # thresholds - must be an array of size 4 containing the threshold values
       #              for the sparkline colors
       #
-      def print_sparkline(value, thresholds)
+      def gen_sparkline(value, thresholds)
         return if thresholds.count < 4
 
         list = [0, 30, 55, 80, 100, 130]

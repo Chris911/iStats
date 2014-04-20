@@ -58,7 +58,7 @@ module IStats
       #
       def print_fan_speed(fanNum, speed)
         thresholds = [2500, 3500, 4500, 5500]
-        puts "Fan #{fanNum} speed: #{speed} RPM  " + Printer.print_sparkline(speed, thresholds)
+        puts "Fan #{fanNum} speed: #{speed} RPM  " + Printer.gen_sparkline(speed, thresholds)
       end
     end
   end

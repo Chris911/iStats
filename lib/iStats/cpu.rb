@@ -30,7 +30,7 @@ module IStats
       def cpu_temperature
         t = get_cpu_temp
         thresholds = [50, 68, 80, 90]
-        puts "CPU temp: #{t}#{Symbols.degree}C  " + Printer.print_sparkline(t, thresholds)
+        puts "CPU temp: #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
       end
     end
   end
