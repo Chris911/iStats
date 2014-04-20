@@ -19,6 +19,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ruby.h>
+#include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
 
 #include "smc.h"
@@ -299,6 +301,7 @@ void Init_osx_stats() {
     BATTERY_STATS = rb_define_module("BATTERY_STATS");
     rb_define_method(BATTERY_STATS, "get_battery_health", method_get_battery_health, 0);
     rb_define_method(BATTERY_STATS, "get_battery_design_cycle_count", method_get_battery_design_cycle_count, 0);
+    rb_define_method(BATTERY_STATS, "get_battery_temp", method_get_battery_temp, 0);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
@@ -334,6 +337,14 @@ VALUE method_get_battery_health(VALUE self) {
 VALUE method_get_battery_design_cycle_count(VALUE self) {
     int cc = getDesignCycleCount();
     return INT2NUM(cc);
+}
+
+VALUE method_get_battery_temp(VALUE self) {
+    SMCOpen();
+    double temp = SMCGetTemperature(SMC_KEY_BATTERY_TEMP);
+    SMCClose();
+
+    return rb_float_new(temp);
 }
 
 /* Main method used for test */

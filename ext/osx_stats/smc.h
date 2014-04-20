@@ -19,8 +19,6 @@
 
 #ifndef __SMC_H__
 #define __SMC_H__
-#include "ruby.h"
-#include <CoreFoundation/CoreFoundation.h>
 #endif
 
 #define VERSION               "0.01"
@@ -44,6 +42,7 @@
 #define SMC_KEY_CPU_TEMP      "TC0P"
 #define SMC_KEY_FAN_SPEED     "F%dAc"
 #define SMC_KEY_FAN_NUM       "FNum"
+#define SMC_KEY_BATTERY_TEMP  "TB0T"
 
 
 typedef struct {
@@ -108,3 +107,4 @@ VALUE method_get_fan_speed(VALUE self, VALUE num);
 VALUE method_get_fan_number(VALUE self);
 VALUE method_get_battery_health(VALUE self);
 VALUE method_get_battery_design_cycle_count(VALUE self);
+VALUE method_get_battery_temp(VALUE self);
