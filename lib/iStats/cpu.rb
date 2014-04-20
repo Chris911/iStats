@@ -5,7 +5,6 @@ module IStats
   class Cpu
     extend CPU_STATS
     class << self
-      include IStats::Color
 
       # Delegate CLI command to function
       #
@@ -27,28 +26,11 @@ module IStats
       end
 
       # Print CPU temperature with sparkline
-      # TODO: Move sparkline function to printer class
       #
       def cpu_temperature
         t = get_cpu_temp
-        message = "CPU temp: #{t}#{Symbols.degree}C  "
-        list = [0, 30, 55, 80, 100, 130]
-        sparkline = Sparkr.sparkline(list) do |tick, count, index|
-          if index.between?(0, 5) and t > 90
-            flash_red(tick)
-          elsif index.between?(0, 1)
-            green(tick)
-          elsif index.between?(2, 3) and t > 50
-            light_yellow(tick)
-          elsif index == 4 and t > 68
-            yellow(tick)
-          elsif index == 5 and t > 80
-            red(tick)
-          else
-            tick
-          end
-        end
-        puts message + sparkline
+        thresholds = [50, 68, 80, 90]
+        puts "CPU temp: #{t}#{Symbols.degree}C  " + Printer.print_sparkline(t, thresholds)
       end
     end
   end

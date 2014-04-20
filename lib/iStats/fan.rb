@@ -5,7 +5,6 @@ module IStats
   class Fan
     extend FAN_STATS
     class << self
-      include IStats::Color
 
       # Delegate CLI command to function
       #
@@ -53,30 +52,13 @@ module IStats
       end
 
       # Actually print fan speed with Sparkline
-      # TODO: Move sparkline function to printer class
       #
       # fanNum - The fan number
       # speed  - Fan speed in RPM
       #
       def print_fan_speed(fanNum, speed)
-        message = "Fan #{fanNum} speed: #{speed} RPM  "
-        list = [0, 30, 55, 80, 100, 130]
-        sparkline = Sparkr.sparkline(list) do |tick, count, index|
-          if index.between?(0, 5) and speed > 5500
-            flash_red(tick)
-          elsif index.between?(0, 1)
-            green(tick)
-          elsif index.between?(2, 3) and speed > 2500
-            light_yellow(tick)
-          elsif index == 4 and speed > 3500
-            yellow(tick)
-          elsif index == 5 and speed > 4500
-            red(tick)
-          else
-            tick
-          end
-        end
-        puts message + sparkline
+        thresholds = [2500, 3500, 4500, 5500]
+        puts "Fan #{fanNum} speed: #{speed} RPM  " + Printer.print_sparkline(speed, thresholds)
       end
     end
   end

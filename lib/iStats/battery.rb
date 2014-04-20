@@ -5,7 +5,6 @@ module IStats
   class Battery
     extend BATTERY_STATS
     class << self
-      include IStats::Color
 
       # Delegate CLI command to function
       #
@@ -13,6 +12,8 @@ module IStats
         case stat
         when 'all'
           all
+        when 'temp', 'temperature'
+          battery_temperature
         when 'health'
           battery_health
         when 'cycle_count', 'cc'
@@ -26,6 +27,7 @@ module IStats
       #
       def all
         battery_health
+        battery_temperature
         cycle_count
       end
 
@@ -39,26 +41,16 @@ module IStats
         else
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
-
-          list = [0, 30, 55, 80, 100, 130]
-          sparkline = Sparkr.sparkline(list) do |tick, count, index|
-            if index.between?(0, 5) and percentage > 95
-              flash_red(tick)
-            elsif index.between?(0, 1)
-              green(tick)
-            elsif index.between?(2, 3) and percentage > 45
-              light_yellow(tick)
-            elsif index == 4 and percentage > 65
-              yellow(tick)
-            elsif index == 5 and percentage > 85
-              red(tick)
-            else
-              tick
-            end
-          end
-          puts "Cycle count: #{cycle_count} " + sparkline
+          thresholds = [45, 65, 85, 95]
+          puts "Cycle count: #{cycle_count}  " + Printer.print_sparkline(percentage, thresholds)
           puts "Max cycle count: #{max_cycle_count}"
         end
+      end
+
+      # Get the battery temperature
+      #
+      def battery_temperature
+        puts "Battery temp: #{get_battery_temp.round(2)}#{Symbols.degree}C  "
       end
 
       # Get the battery health
