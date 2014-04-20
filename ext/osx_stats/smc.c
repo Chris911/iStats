@@ -277,6 +277,9 @@ const char* getBatteryHealth() {
 
     const char *batteryHealth = CFStringGetCStringPtr(batteryHealthRef, // CFStringRef theString,
                                                 kCFStringEncodingMacRoman); //CFStringEncoding encoding);
+    if(batteryHealth == NULL)
+        return "unknown";
+
     return batteryHealth;
 }
 
