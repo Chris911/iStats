@@ -10,7 +10,7 @@ spec = Gem::Specification.new do |s|
   s.version       = IStats::VERSION
   s.authors       = ["Chris911"]
   s.email         = ["christophe.naud.dulude@gmail.com"]
-  s.description   = "Stats for your mac"
+  s.description   = %q{iStats is a command-line tool that allows you to easily grap the CPU temperature, fan speeds and battery information on OS X. If you'd like to see more data available feel free to open an issue.}
   s.summary       = "Stats for your mac"
   s.homepage      = "https://github.com/Chris911/iStats"
   s.license       = "MIT"
@@ -23,7 +23,9 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.extensions = FileList["ext/**/extconf.rb"]
 
-  s.add_dependency "sparkr"
+  s.required_ruby_version = ">= 1.9.3"
+
+  s.add_dependency "sparkr", "~> 0.4"
 
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake"
