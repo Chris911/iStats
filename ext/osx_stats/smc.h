@@ -108,3 +108,5 @@ VALUE method_get_fan_number(VALUE self);
 VALUE method_get_battery_health(VALUE self);
 VALUE method_get_battery_design_cycle_count(VALUE self);
 VALUE method_get_battery_temp(VALUE self);
+VALUE method_get_battery_time_remaining(VALUE self);
+VALUE method_get_battery_charge(VALUE self);

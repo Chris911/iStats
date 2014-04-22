@@ -18,6 +18,10 @@ module IStats
           battery_health
         when 'cycle_count', 'cc'
           cycle_count
+        when 'time', 'remain'
+          battery_time_remaining
+        when 'charge'
+          battery_charge
         else
           Command.help "Unknown stat for Battery: #{stat}"
         end
@@ -28,6 +32,8 @@ module IStats
       def all
         battery_health
         battery_temperature
+        battery_time_remaining
+        battery_charge
         cycle_count
       end
 
@@ -58,6 +64,25 @@ module IStats
       #
       def battery_health
         puts "Battery health: #{get_battery_health}"
+      end
+
+      def battery_time_remaining
+        result = case get_battery_time_remaining
+        when String
+          get_battery_time_remaining
+        when Integer
+          seconds = get_battery_time_remaining
+          hours   = get_battery_time_remaining / 3600
+          minutes = get_battery_time_remaining / 60 - hours * 60
+
+          "%i:%02i" % [hours, minutes]
+        end
+
+        puts "Battery time remaining: #{result}"
+      end
+
+      def battery_charge
+        puts "Battery charge: #{get_battery_charge}%"
       end
 
       # Get the battery design cycle count

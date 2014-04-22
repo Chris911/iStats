@@ -91,8 +91,10 @@ module IStats
           istats fan [speed]                       Print fan speed
           istats battery                           Print all battery stats
           istats battery [health]                  Print battery health
+          istats battery [time | remain]           Print battery time remaining
           istats battery [cycleCount | cc]         Print battery cycle count info
           istats battery [temp | temperature]      Print battery temperature
+          istats battery [charge]                  Print battery charge
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

@@ -22,6 +22,8 @@
 #include <ruby.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
+#include <IOKit/ps/IOPSKeys.h>
+#include <IOKit/ps/IOPowerSources.h>
 
 #include "smc.h"
 
@@ -305,6 +307,8 @@ void Init_osx_stats() {
     rb_define_method(BATTERY_STATS, "get_battery_health", method_get_battery_health, 0);
     rb_define_method(BATTERY_STATS, "get_battery_design_cycle_count", method_get_battery_design_cycle_count, 0);
     rb_define_method(BATTERY_STATS, "get_battery_temp", method_get_battery_temp, 0);
+    rb_define_method(BATTERY_STATS, "get_battery_time_remaining", method_get_battery_time_remaining, 0);
+    rb_define_method(BATTERY_STATS, "get_battery_charge", method_get_battery_charge, 0);
 }
 
 VALUE method_get_cpu_temp(VALUE self) {
@@ -349,6 +353,45 @@ VALUE method_get_battery_temp(VALUE self) {
 
     return rb_float_new(temp);
 }
+
+VALUE method_get_battery_time_remaining(VALUE self) {
+  CFTimeInterval time_remaining;
+
+  time_remaining = IOPSGetTimeRemainingEstimate();
+
+  if (time_remaining == kIOPSTimeRemainingUnknown) {
+    return rb_str_new2("Calculating");
+  } else if (time_remaining == kIOPSTimeRemainingUnlimited) {
+    return rb_str_new2("Unlimited");
+  } else {
+    return INT2NUM(time_remaining);
+  };
+};
+
+VALUE method_get_battery_charge(VALUE self) {
+  CFNumberRef currentCapacity;
+  CFNumberRef maximumCapacity;
+
+  int iCurrentCapacity;
+  int iMaximumCapacity;
+  int charge;
+
+  CFDictionaryRef powerSourceInformation;
+
+  powerSourceInformation = powerSourceInfo(0);
+  if (powerSourceInformation == NULL)
+    return Qnil;
+
+  currentCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSCurrentCapacityKey));
+  maximumCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSMaxCapacityKey));
+
+  CFNumberGetValue(currentCapacity, kCFNumberIntType, &iCurrentCapacity);
+  CFNumberGetValue(maximumCapacity, kCFNumberIntType, &iMaximumCapacity);
+
+  charge = (float)iCurrentCapacity / iMaximumCapacity * 100;
+
+  return INT2NUM(charge);
+};
 
 /* Main method used for test */
 // int main(int argc, char *argv[])
