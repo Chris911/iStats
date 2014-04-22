@@ -1,4 +1,5 @@
-language: ruby
+language: objective-c
+before_install: "bundle update"
 script: "bundle exec rake compile"
 rvm:
   - 1.9.3
