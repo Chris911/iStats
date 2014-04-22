@@ -96,6 +96,7 @@ int SMCGetFanNumber(char *key);
 double SMCGetTemperature(char *key);
 const char* getBatteryHealth();
 int getDesignCycleCount();
+int getBatteryCharge();
 CFTypeRef IOPSCopyPowerSourcesInfo(void);
 CFArrayRef IOPSCopyPowerSourcesList(CFTypeRef blob);
 CFDictionaryRef IOPSGetPowerSourceDescription(CFTypeRef blob, CFTypeRef ps);

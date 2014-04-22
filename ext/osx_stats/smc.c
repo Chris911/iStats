@@ -285,6 +285,31 @@ const char* getBatteryHealth() {
     return batteryHealth;
 }
 
+int getBatteryCharge() {
+  CFNumberRef currentCapacity;
+  CFNumberRef maximumCapacity;
+
+  int iCurrentCapacity;
+  int iMaximumCapacity;
+  int charge;
+
+  CFDictionaryRef powerSourceInformation;
+
+  powerSourceInformation = powerSourceInfo(0);
+  if (powerSourceInformation == NULL)
+    return Qnil;
+
+  currentCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSCurrentCapacityKey));
+  maximumCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSMaxCapacityKey));
+
+  CFNumberGetValue(currentCapacity, kCFNumberIntType, &iCurrentCapacity);
+  CFNumberGetValue(maximumCapacity, kCFNumberIntType, &iMaximumCapacity);
+
+  charge = (float)iCurrentCapacity / iMaximumCapacity * 100;
+
+  return charge;
+}
+
 /*
  RUBY MODULES
 */
@@ -369,27 +394,7 @@ VALUE method_get_battery_time_remaining(VALUE self) {
 };
 
 VALUE method_get_battery_charge(VALUE self) {
-  CFNumberRef currentCapacity;
-  CFNumberRef maximumCapacity;
-
-  int iCurrentCapacity;
-  int iMaximumCapacity;
-  int charge;
-
-  CFDictionaryRef powerSourceInformation;
-
-  powerSourceInformation = powerSourceInfo(0);
-  if (powerSourceInformation == NULL)
-    return Qnil;
-
-  currentCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSCurrentCapacityKey));
-  maximumCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSMaxCapacityKey));
-
-  CFNumberGetValue(currentCapacity, kCFNumberIntType, &iCurrentCapacity);
-  CFNumberGetValue(maximumCapacity, kCFNumberIntType, &iMaximumCapacity);
-
-  charge = (float)iCurrentCapacity / iMaximumCapacity * 100;
-
+  int charge = getBatteryCharge();
   return INT2NUM(charge);
 };
 
