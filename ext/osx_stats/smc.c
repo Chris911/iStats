@@ -390,8 +390,8 @@ VALUE method_get_battery_time_remaining(VALUE self) {
     return rb_str_new2("Unlimited");
   } else {
     return INT2NUM(time_remaining);
-  };
-};
+  }
+}
 
 VALUE method_get_battery_charge(VALUE self) {
   int charge = getBatteryCharge();
