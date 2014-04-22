@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    iStats (0.0.5)
-      sparkr
+    iStats (0.0.6)
+      sparkr (~> 0.4)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    rake (10.2.2)
+    rake (10.3.1)
     rake-compiler (0.9.2)
       rake
     sparkr (0.4.1)
