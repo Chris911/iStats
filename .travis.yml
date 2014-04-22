@@ -1,5 +1,5 @@
 language: ruby
-script: "rake compile"
+script: "bundle exec rake compile"
 rvm:
   - 1.9.3
   - 2.0.0
