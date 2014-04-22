@@ -65,22 +65,22 @@ module IStats
       end
 
       def battery_time_remaining
-        result = case get_battery_time_remaining
-        when String
-          get_battery_time_remaining
-        when Integer
-          seconds = get_battery_time_remaining
-          hours   = get_battery_time_remaining / 3600
-          minutes = get_battery_time_remaining / 60 - hours * 60
+        time = get_battery_time_remaining
 
-          "%i:%02i" % [hours, minutes]
+        if time.is_a? Integer
+          hours   = time / 3600
+          minutes = time / 60 - hours * 60
+
+          time = "%i:%02i" % [hours, minutes]
         end
 
-        puts "Battery time remaining: #{result}"
+        puts "Battery time remaining: #{time}"
       end
 
       def battery_charge
-        puts "Battery charge: #{get_battery_charge}%"
+        charge = get_battery_charge
+        result = charge ? "#{charge}%" : "Unknown"
+        puts "Battery charge: #{result}"
       end
 
       # Get the battery design cycle count

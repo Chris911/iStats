@@ -297,7 +297,7 @@ int getBatteryCharge() {
 
   powerSourceInformation = powerSourceInfo(0);
   if (powerSourceInformation == NULL)
-    return Qnil;
+    return 0;
 
   currentCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSCurrentCapacityKey));
   maximumCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSMaxCapacityKey));
@@ -395,8 +395,13 @@ VALUE method_get_battery_time_remaining(VALUE self) {
 
 VALUE method_get_battery_charge(VALUE self) {
   int charge = getBatteryCharge();
-  return INT2NUM(charge);
-};
+
+  if (charge == 0) {
+    return Qnil;
+  } else {
+    return INT2NUM(charge);
+  }
+}
 
 /* Main method used for test */
 // int main(int argc, char *argv[])
