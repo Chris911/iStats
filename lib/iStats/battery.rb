@@ -32,8 +32,6 @@ module IStats
       def all
         battery_health
         battery_temperature
-        battery_time_remaining
-        battery_charge
         cycle_count
       end
 
