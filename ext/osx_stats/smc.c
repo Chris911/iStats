@@ -237,9 +237,9 @@ CFDictionaryRef powerSourceInfo(int Debug)
     // Should only get one source. But in practice, check for > 0 sources
     if (CFArrayGetCount(powerSourcesList))
     {
-		powerSourceInformation = IOPSGetPowerSourceDescription(powerInfo, CFArrayGetValueAtIndex(powerSourcesList, 0));
+        powerSourceInformation = IOPSGetPowerSourceDescription(powerInfo, CFArrayGetValueAtIndex(powerSourcesList, 0));
 
-		if (Debug) dumpDict (powerSourceInformation);
+        if (Debug) dumpDict (powerSourceInformation);
 
         //CFRelease(powerInfo);
         //CFRelease(powerSourcesList);
