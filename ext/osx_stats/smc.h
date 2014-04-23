@@ -70,24 +70,24 @@ typedef struct {
 typedef char              SMCBytes_t[32];
 
 typedef struct {
-  UInt32                  key;
-  SMCKeyData_vers_t       vers;
-  SMCKeyData_pLimitData_t pLimitData;
-  SMCKeyData_keyInfo_t    keyInfo;
-  char                    result;
-  char                    status;
-  char                    data8;
-  UInt32                  data32;
-  SMCBytes_t              bytes;
+    UInt32                  key;
+    SMCKeyData_vers_t       vers;
+    SMCKeyData_pLimitData_t pLimitData;
+    SMCKeyData_keyInfo_t    keyInfo;
+    char                    result;
+    char                    status;
+    char                    data8;
+    UInt32                  data32;
+    SMCBytes_t              bytes;
 } SMCKeyData_t;
 
 typedef char              UInt32Char_t[5];
 
 typedef struct {
-  UInt32Char_t            key;
-  UInt32                  dataSize;
-  UInt32Char_t            dataType;
-  SMCBytes_t              bytes;
+    UInt32Char_t            key;
+    UInt32                  dataSize;
+    UInt32Char_t            dataType;
+    SMCBytes_t              bytes;
 } SMCVal_t;
 
 // prototypes

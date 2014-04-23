@@ -286,28 +286,28 @@ const char* getBatteryHealth() {
 }
 
 int getBatteryCharge() {
-  CFNumberRef currentCapacity;
-  CFNumberRef maximumCapacity;
+    CFNumberRef currentCapacity;
+    CFNumberRef maximumCapacity;
 
-  int iCurrentCapacity;
-  int iMaximumCapacity;
-  int charge;
+    int iCurrentCapacity;
+    int iMaximumCapacity;
+    int charge;
 
-  CFDictionaryRef powerSourceInformation;
+    CFDictionaryRef powerSourceInformation;
 
-  powerSourceInformation = powerSourceInfo(0);
-  if (powerSourceInformation == NULL)
-    return 0;
+    powerSourceInformation = powerSourceInfo(0);
+    if (powerSourceInformation == NULL)
+        return 0;
 
-  currentCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSCurrentCapacityKey));
-  maximumCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSMaxCapacityKey));
+    currentCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSCurrentCapacityKey));
+    maximumCapacity = CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSMaxCapacityKey));
 
-  CFNumberGetValue(currentCapacity, kCFNumberIntType, &iCurrentCapacity);
-  CFNumberGetValue(maximumCapacity, kCFNumberIntType, &iMaximumCapacity);
+    CFNumberGetValue(currentCapacity, kCFNumberIntType, &iCurrentCapacity);
+    CFNumberGetValue(maximumCapacity, kCFNumberIntType, &iMaximumCapacity);
 
-  charge = (float)iCurrentCapacity / iMaximumCapacity * 100;
+    charge = (float)iCurrentCapacity / iMaximumCapacity * 100;
 
-  return charge;
+    return charge;
 }
 
 /*
@@ -380,27 +380,27 @@ VALUE method_get_battery_temp(VALUE self) {
 }
 
 VALUE method_get_battery_time_remaining(VALUE self) {
-  CFTimeInterval time_remaining;
+    CFTimeInterval time_remaining;
 
-  time_remaining = IOPSGetTimeRemainingEstimate();
+    time_remaining = IOPSGetTimeRemainingEstimate();
 
-  if (time_remaining == kIOPSTimeRemainingUnknown) {
-    return rb_str_new2("Calculating");
-  } else if (time_remaining == kIOPSTimeRemainingUnlimited) {
-    return rb_str_new2("Unlimited");
-  } else {
-    return INT2NUM(time_remaining);
-  }
+    if (time_remaining == kIOPSTimeRemainingUnknown) {
+        return rb_str_new2("Calculating");
+    } else if (time_remaining == kIOPSTimeRemainingUnlimited) {
+        return rb_str_new2("Unlimited");
+    } else {
+        return INT2NUM(time_remaining);
+    }
 }
 
 VALUE method_get_battery_charge(VALUE self) {
-  int charge = getBatteryCharge();
+    int charge = getBatteryCharge();
 
-  if (charge == 0) {
-    return Qnil;
-  } else {
-    return INT2NUM(charge);
-  }
+    if (charge == 0) {
+        return Qnil;
+    } else {
+        return INT2NUM(charge);
+    }
 }
 
 /* Main method used for test */
