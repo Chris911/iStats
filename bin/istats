@@ -3,6 +3,6 @@
 
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
-require 'istats'
+require 'iStats'
 
 IStats::Command.execute(*ARGV)
