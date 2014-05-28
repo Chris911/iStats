@@ -9,6 +9,9 @@ module IStats
       # Delegate CLI command to function
       #
       def delegate(stat)
+        # Before we deletage check if there's a battery on system
+        return unless validate_battery
+
         case stat
         when 'all'
           all
@@ -30,6 +33,8 @@ module IStats
       # Call all functions (stats)
       #
       def all
+        return unless validate_battery
+
         battery_health
         battery_temperature
         cycle_count
@@ -88,6 +93,14 @@ module IStats
       #
       def design_cycle_count
         get_battery_design_cycle_count
+      end
+
+      # Check if there's a battery on the system
+      #
+      def validate_battery
+        valid = has_battery?
+        puts 'No battery on system' unless valid
+        valid
       end
     end
   end

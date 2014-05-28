@@ -285,6 +285,11 @@ const char* getBatteryHealth() {
     return batteryHealth;
 }
 
+const int hasBattery() {
+  CFDictionaryRef powerSourceInformation = powerSourceInfo(0);
+  return !(powerSourceInformation == NULL);
+}
+
 int getBatteryCharge() {
     CFNumberRef currentCapacity;
     CFNumberRef maximumCapacity;
@@ -329,6 +334,7 @@ void Init_osx_stats() {
     rb_define_method(FAN_STATS, "get_fan_speed", method_get_fan_speed, 1);
 
     BATTERY_STATS = rb_define_module("BATTERY_STATS");
+    rb_define_method(BATTERY_STATS, "has_battery?", method_has_battery, 0);
     rb_define_method(BATTERY_STATS, "get_battery_health", method_get_battery_health, 0);
     rb_define_method(BATTERY_STATS, "get_battery_design_cycle_count", method_get_battery_design_cycle_count, 0);
     rb_define_method(BATTERY_STATS, "get_battery_temp", method_get_battery_temp, 0);
@@ -359,6 +365,10 @@ VALUE method_get_fan_speed(VALUE self, VALUE num) {
     SMCClose();
 
     return rb_float_new(speed);
+}
+
+VALUE method_has_battery(VALUE self) {
+    return hasBattery() ? Qtrue : Qfalse;
 }
 
 VALUE method_get_battery_health(VALUE self) {

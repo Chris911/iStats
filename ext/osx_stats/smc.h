@@ -106,6 +106,7 @@ void Init_osx_stats();
 VALUE method_get_cpu_temp(VALUE self);
 VALUE method_get_fan_speed(VALUE self, VALUE num);
 VALUE method_get_fan_number(VALUE self);
+VALUE method_has_battery(VALUE self);
 VALUE method_get_battery_health(VALUE self);
 VALUE method_get_battery_design_cycle_count(VALUE self);
 VALUE method_get_battery_temp(VALUE self);
