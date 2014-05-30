@@ -36,24 +36,60 @@ module IStats
         return unless validate_battery
 
         battery_health
-        battery_temperature
         cycle_count
+        print_capacity_info
+        battery_temperature
       end
 
       # Prints the battery cycle count info
       #
       def cycle_count
-        data = %x( ioreg -l | grep Capacity )
-        cycle_count = data[/"Cycle Count"=([0-9]*)/, 1]
+        data = %x( ioreg -l | grep "CycleCount" )
+        cycle_count = data[/"CycleCount" = ([0-9]*)/, 1]
         if cycle_count == nil
           puts "Cycle count: unknown"
         else
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
           thresholds = [45, 65, 85, 95]
-          puts "Cycle count: #{cycle_count}  " + Printer.gen_sparkline(percentage, thresholds)
+          puts "Cycle count: #{cycle_count}  " + Printer.gen_sparkline(percentage, thresholds) + "  #{percentage.round(1)}%"
           puts "Max cycle count: #{max_cycle_count}"
         end
+      end
+
+      # Get information from ioreg
+      #
+      def grep_ioreg(keyword)
+        data = %x( ioreg -l | grep "#{keyword}" )
+        capacity = data[/"#{keyword}" = ([0-9]*)/, 1]
+      end
+
+      # Original max capacity
+      #
+      def ori_max_capacity
+        grep_ioreg("DesignCapacity")
+      end
+
+      # Current max capacity
+      #
+      def cur_max_capacity
+        grep_ioreg("MaxCapacity")
+      end
+
+      # Current capacity
+      #
+      def cur_capacity
+        grep_ioreg("CurrentCapacity")
+      end
+
+      # Print battery capacity info
+      #
+      def print_capacity_info
+        percentage = (cur_max_capacity.to_f/ori_max_capacity.to_f)*100
+        thresholds = [45, 65, 85, 95]
+        puts "Current charge:  #{cur_capacity} mAh"
+        puts "Maximum charge:  #{cur_max_capacity} mAh " + Printer.gen_sparkline(100-percentage, thresholds) + "  #{percentage.round(1)}%"
+        puts "Design capacity: #{ori_max_capacity} mAh"
       end
 
       # Get the battery temperature
