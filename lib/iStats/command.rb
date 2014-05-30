@@ -95,6 +95,7 @@ module IStats
           istats battery [cycleCount | cc]         Print battery cycle count info
           istats battery [temp | temperature]      Print battery temperature
           istats battery [charge]                  Print battery charge
+          istats battery [capacity]                Print battery capacity info
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

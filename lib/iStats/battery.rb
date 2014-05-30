@@ -25,6 +25,8 @@ module IStats
           battery_time_remaining
         when 'charge'
           battery_charge
+        when 'capacity'
+          print_capacity_info
         else
           Command.help "Unknown stat for Battery: #{stat}"
         end
