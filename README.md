@@ -55,5 +55,5 @@ If you are using RVM or homebrew to manage your Ruby installation you should be 
 
 #### Tested on
 MacBook Pro 2012<br>
-OS X 10.9.2<br>
+OS X 10.9.3<br>
 Ruby: 1.9.3, 2.0.0, 2.1.1<br>
