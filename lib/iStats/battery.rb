@@ -97,7 +97,9 @@ module IStats
       # Get the battery temperature
       #
       def battery_temperature
-        puts "Battery temp: #{get_battery_temp.round(2)}#{Symbols.degree}C  "
+        t = get_battery_temp
+        tF = t * 9.0 / 5.0 + 32
+        puts "Battery temp: #{t.round(2)}#{Symbols.degree}C (#{tF.round(2)}#{Symbols.degree}F)  "
       end
 
       # Get the battery health
