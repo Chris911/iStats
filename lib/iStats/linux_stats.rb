@@ -1,5 +1,4 @@
 require 'sensors'
-require 'ap'
 
 module SensorsData 
 @@data=Hash[Sensors.chips.map {|chip|
