@@ -170,19 +170,6 @@ kern_return_t SMCReadKey(UInt32Char_t key, SMCVal_t *val)
 }
 
 
-double SMCKeySuppor2ted(char *key)
-{
-    SMCVal_t val;
-    kern_return_t result;
-    
-    result = SMCReadKey(key, &val);
-    if (result == kIOReturnSuccess) {
-        return 1;
-    }
-    
-    // read failed
-    return 0;
-}
 
 double SMCGetTemperature(char *key)
 {
@@ -204,25 +191,6 @@ double SMCGetTemperature(char *key)
     return 0.0;
 }
 
-double SMCKeySupported(char *key)
-{
-    SMCVal_t val;
-    kern_return_t result;
-    
-    result = SMCReadKey(key, &val);
-    if (result == kIOReturnSuccess) {
-        // read succeeded - check returned value
-        if (val.dataSize > 0) {
-            if (strcmp(val.dataType, DATATYPE_SP78) == 0) {
-                // convert fp78 value to temperature
-                int intValue = (val.bytes[0] * 256 + val.bytes[1]) >> 2;
-                return intValue / 64.0;
-            }
-        }
-    }
-    // read failed
-    return 0.0;
-}
 
 
 float SMCGetFanSpeed(int fanNum)
@@ -385,14 +353,9 @@ void Init_osx_stats() {
 
 VALUE method_SMCKeySupported(VALUE self, VALUE key)
 {
-    /*SMCOpen();
     char *keyString = RSTRING_PTR(key);
-    int supported=SMCKeySupported(key);
-    SMCClose();
-    return supported;*/
-     char *keyString = RSTRING_PTR(key);
     SMCOpen();
-    double temp = SMCKeySupported(keyString);
+    double temp = SMCGetTemperature(keyString);
     SMCClose();
     
     return rb_float_new(temp);
