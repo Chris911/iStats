@@ -1,6 +1,8 @@
 # Extensions (C libs)
 require 'osx_stats'
 
+
+
 # Gems
 require 'optparse'
 require 'sparkr'
@@ -14,6 +16,7 @@ require 'iStats/command'
 require 'iStats/cpu'
 require 'iStats/fan'
 require 'iStats/battery'
+require 'iStats/smc'
 
 module IStats
   def self.options

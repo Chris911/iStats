@@ -169,6 +169,21 @@ kern_return_t SMCReadKey(UInt32Char_t key, SMCVal_t *val)
     return kIOReturnSuccess;
 }
 
+
+double SMCKeySuppor2ted(char *key)
+{
+    SMCVal_t val;
+    kern_return_t result;
+    
+    result = SMCReadKey(key, &val);
+    if (result == kIOReturnSuccess) {
+        return 1;
+    }
+    
+    // read failed
+    return 0;
+}
+
 double SMCGetTemperature(char *key)
 {
     SMCVal_t val;
@@ -188,6 +203,27 @@ double SMCGetTemperature(char *key)
     // read failed
     return 0.0;
 }
+
+double SMCKeySupported(char *key)
+{
+    SMCVal_t val;
+    kern_return_t result;
+    
+    result = SMCReadKey(key, &val);
+    if (result == kIOReturnSuccess) {
+        // read succeeded - check returned value
+        if (val.dataSize > 0) {
+            if (strcmp(val.dataType, DATATYPE_SP78) == 0) {
+                // convert fp78 value to temperature
+                int intValue = (val.bytes[0] * 256 + val.bytes[1]) >> 2;
+                return intValue / 64.0;
+            }
+        }
+    }
+    // read failed
+    return 0.0;
+}
+
 
 float SMCGetFanSpeed(int fanNum)
 {
@@ -318,6 +354,7 @@ int getBatteryCharge() {
 /*
  RUBY MODULES
 */
+VALUE SMC_INFO = Qnil;
 VALUE CPU_STATS = Qnil;
 VALUE FAN_STATS = Qnil;
 VALUE BATTERY_STATS = Qnil;
@@ -326,6 +363,10 @@ VALUE BATTERY_STATS = Qnil;
  * We never call this, Ruby does.
 */
 void Init_osx_stats() {
+    
+    SMC_INFO = rb_define_module("SMC_INFO");
+    rb_define_method(SMC_INFO,"is_key_supported",method_SMCKeySupported,1);
+    
     CPU_STATS = rb_define_module("CPU_STATS");
     rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
 
@@ -341,6 +382,22 @@ void Init_osx_stats() {
     rb_define_method(BATTERY_STATS, "get_battery_time_remaining", method_get_battery_time_remaining, 0);
     rb_define_method(BATTERY_STATS, "get_battery_charge", method_get_battery_charge, 0);
 }
+
+VALUE method_SMCKeySupported(VALUE self, VALUE key)
+{
+    /*SMCOpen();
+    char *keyString = RSTRING_PTR(key);
+    int supported=SMCKeySupported(key);
+    SMCClose();
+    return supported;*/
+     char *keyString = RSTRING_PTR(key);
+    SMCOpen();
+    double temp = SMCKeySupported(keyString);
+    SMCClose();
+    
+    return rb_float_new(temp);
+}
+
 
 VALUE method_get_cpu_temp(VALUE self) {
     SMCOpen();
