@@ -13,7 +13,6 @@ module IStats
         category = args.empty? ? 'all' : args.shift
         stat     = args.empty? ? 'all' : args.shift
         
-        
         parse_options
         delegate(category, stat)
       end

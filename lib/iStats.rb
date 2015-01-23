@@ -1,8 +1,6 @@
 # Extensions (C libs)
 require 'osx_stats'
 
-
-
 # Gems
 require 'optparse'
 require 'sparkr'
