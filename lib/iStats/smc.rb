@@ -57,11 +57,12 @@ module IStats
           'TG0T' => ''  #MACBOOK PRO
 
         }
-
-        (0..35).map{|i| i.to_s 36}.each {|l1|
-        (0..35).map{|i| i.to_s 36}.each {|l2|
-          (0..35).map{|i| i.to_s 36}.each {|l3|
-              key="T#{l1}#{l2}#{l3}".upcase
+        
+        characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
+        characters.each {|l1|
+        characters.each {|l2|
+          characters.each {|l3|       
+              key="T#{l1}#{l2}#{l3}"
               t=is_key_supported(key);
               if (t != 0.0)
                 thresholds = [50, 68, 80, 90]
