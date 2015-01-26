@@ -1,21 +1,18 @@
-# CPU Stats
+# SMC 
 # Extend CPU_STATS C module (ext/osx_stats/smc.c)
 #
 module IStats
   class SMC
-    extend SMC_INFO  
+    extend SMC_INFO
     class << self
-
       # Delegate CLI command to function
       #
       def delegate(stat)
         case stat
         when 'all'
           all
-          
         else
           scan_supported_key(stat)
-         
         end
       end
 
@@ -25,13 +22,10 @@ module IStats
         scan_supported_keys
       end
 
-      # Print CPU temperature with sparkline
+      # Print temperature with sparkline
       #
       def scan_supported_keys
-        
-        
-        
-        
+
         temp_sensors_name={
           'TA0P' => 'Ambient temperature',  ##MACBOOK PRO
           'TB0T' => '',                      ##MACBOOK PRO
@@ -60,35 +54,26 @@ module IStats
           'TCSC' => '',
           'TG0H' => '', #MACBOOK PRO
           'TG0P' => '', #MACBOOK PRO
-          'TG0T' => '', #MACBOOK PRO
-          
+          'TG0T' => ''  #MACBOOK PRO
+
+        }
+
+        (0..35).map{|i| i.to_s 36}.each {|l1|
+        (0..35).map{|i| i.to_s 36}.each {|l2|
+          (0..35).map{|i| i.to_s 36}.each {|l3|
+              key="T#{l1}#{l2}#{l3}".upcase
+              t=is_key_supported(key);
+              if (t != 0.0)
+                thresholds = [50, 68, 80, 90]
+                name=temp_sensors_name.fetch(key,"UNKNOWN")
+                puts "#{key} #{name}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
+              end
+            }
           }
-           
-           (0..35).map{|i| i.to_s 36}.each {|l1|
-            (0..35).map{|i| i.to_s 36}.each {|l2|
-              (0..35).map{|i| i.to_s 36}.each {|l3|
-                key="T#{l1}#{l2}#{l3}".upcase
-                t=is_key_supported(key);
-
-
-            if (t != 0.0) 
-              thresholds = [50, 68, 80, 90]
-              name=temp_sensors_name.fetch(key,"UNKNOWN")
-              puts "#{key} #{name}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
-            
-            end
-              
-              }}
-          }         
-          
-           
-            
-            
-              
-          
-       
+        }
       end
-        def scan_supported_key(key)
+
+      def scan_supported_key(key)
         t = is_key_supported(key)
         puts " Scanned #{key} result = #{t}";
       end
