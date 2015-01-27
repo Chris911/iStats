@@ -9,10 +9,11 @@ module IStats
       # args - Command line arguments
       #
       def execute(*args)
-        # Default command is 'all'
+        # Default command is 'all'        
         category = args.empty? ? 'all' : args.shift
         stat     = args.empty? ? 'all' : args.shift
         
+        Settings.load;
         parse_options
         delegate(category, stat)
       end

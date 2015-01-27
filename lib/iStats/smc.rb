@@ -1,4 +1,4 @@
-# SMC 
+# SMC
 # Extend CPU_STATS C module (ext/osx_stats/smc.c)
 #
 module IStats
@@ -12,7 +12,7 @@ module IStats
         when 'all'
           all
         else
-          scan_supported_key(stat)
+        scan_supported_key(stat)
         end
       end
 
@@ -27,18 +27,18 @@ module IStats
       def scan_supported_keys
 
         temp_sensors_name={
-          'TA0P' => 'Ambient temperature',  ##MACBOOK PRO
-          'TB0T' => '',                      ##MACBOOK PRO
+          'TA0P' => 'Ambient temperature',
+          'TB0T' => 'Battery Temperature',
           'TA0p' => 'Ambient temperature',
           'TA1P' => 'Ambient temperature',
           'TA1p' => 'Ambient temperature',
           'TC0C' => 'CPU_DIE_CORE_TEMPERATUE Digital',
-          'TC0D' => 'CPU_DIE_CORE_TEMPERATUE Digital', #MACBOOK PRO
+          'TC0D' => 'CPU_DIE_CORE_TEMPERATUE Digital',
           'TC0E' => '',
           'TC0F' => '',
           'TC0G' => '',
           'TC0J' => '',
-          'TC0P' => 'CPU_PROXIMITY_TEMPERATURE', #MACBOOK PRO
+          'TC0P' => 'CPU_PROXIMITY_TEMPERATURE',
           'TC0c' => '',
           'TC0d' => '',
           'TC0p' => '',
@@ -52,26 +52,38 @@ module IStats
           'TCGc' => '',
           'TCPG' => '',
           'TCSC' => '',
-          'TG0H' => '', #MACBOOK PRO
-          'TG0P' => '', #MACBOOK PRO
-          'TG0T' => ''  #MACBOOK PRO
+          'TG0H' => '',
+          'TG0P' => '',
+          'TG0T' => '',
+          'Th1H' => 'NB/CPU/GPU HeatPipe 1 Proximity',
+          'TM0P' => 'FBDIMM Riser A incoming air Temp',
+          'Tm0p' => 'Misc (clock chip) Proximity',
+          'Ts0P' => 'Palm rest L',
+          'Ts1p' => 'Palm rest R'
 
         }
-        
+
+        sensors=Hash.new
+
         characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
         characters.each {|l1|
-        characters.each {|l2|
-          characters.each {|l3|       
+          characters.each {|l2|
+            characters.each {|l3|
               key="T#{l1}#{l2}#{l3}"
               t=is_key_supported(key);
               if (t != 0.0)
                 thresholds = [50, 68, 80, 90]
                 name=temp_sensors_name.fetch(key,"UNKNOWN")
+                sensors['name']=name
+                sensors['enabled']=1
+                Settings.addSensor(key,sensors)
+
                 puts "#{key} #{name}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
               end
             }
           }
         }
+        
       end
 
       def scan_supported_key(key)
