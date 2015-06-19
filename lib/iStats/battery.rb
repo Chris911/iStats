@@ -46,7 +46,7 @@ module IStats
       # Prints the battery cycle count info
       #
       def cycle_count
-        @ioreg_out ||= %x( ioreg -l )
+        @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
         cycle_count = @ioreg_out[/"CycleCount" = ([0-9]*)/, 1]
         if cycle_count == nil
           puts "Cycle count: unknown"
@@ -62,7 +62,7 @@ module IStats
       # Get information from ioreg
       #
       def grep_ioreg(keyword)
-        @ioreg_out ||= %x( ioreg -l )
+        @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
         capacity = @ioreg_out[/"#{keyword}" = ([0-9]*)/, 1]
       end
 
