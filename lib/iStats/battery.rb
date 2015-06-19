@@ -89,7 +89,9 @@ module IStats
       def print_capacity_info
         percentage = (cur_max_capacity.to_f/ori_max_capacity.to_f)*100
         thresholds = [45, 65, 85, 95]
-        puts "Current charge:  #{cur_capacity} mAh"
+        charge = get_battery_charge
+        charge = charge ? "  #{charge}%" : ""
+        puts "Current charge:  #{cur_capacity} mAh#{charge}"
         puts "Maximum charge:  #{cur_max_capacity} mAh " + Printer.gen_sparkline(100-percentage, thresholds) + "  #{percentage.round(1)}%"
         puts "Design capacity: #{ori_max_capacity} mAh"
       end
