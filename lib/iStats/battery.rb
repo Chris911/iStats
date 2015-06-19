@@ -46,8 +46,8 @@ module IStats
       # Prints the battery cycle count info
       #
       def cycle_count
-        data = %x( ioreg -l | grep "CycleCount" )
-        cycle_count = data[/"CycleCount" = ([0-9]*)/, 1]
+        @ioreg_out ||= %x( ioreg -l )
+        cycle_count = @ioreg_out[/"CycleCount" = ([0-9]*)/, 1]
         if cycle_count == nil
           puts "Cycle count: unknown"
         else
@@ -62,8 +62,8 @@ module IStats
       # Get information from ioreg
       #
       def grep_ioreg(keyword)
-        data = %x( ioreg -l | grep "#{keyword}" )
-        capacity = data[/"#{keyword}" = ([0-9]*)/, 1]
+        @ioreg_out ||= %x( ioreg -l )
+        capacity = @ioreg_out[/"#{keyword}" = ([0-9]*)/, 1]
       end
 
       # Original max capacity
