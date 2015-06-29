@@ -72,13 +72,13 @@ module IStats
               key="T#{l1}#{l2}#{l3}"
               t=is_key_supported(key);
               if (t != 0.0)
-                thresholds = [50, 68, 80, 90]
+                sensors['thresholds'] = [50, 68, 80, 90]
                 name=temp_sensors_name.fetch(key,"UNKNOWN")
                 sensors['name']=name
                 sensors['enabled']=1
                 Settings.addSensor(key,sensors)
 
-                puts "#{key} #{name}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
+                puts "#{key} #{name}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, sensors['thresholds'])
               end
             }
           }
