@@ -92,7 +92,7 @@ module IStats
           istats battery                           Print all battery stats
           istats battery [health]                  Print battery health
           istats battery [time | remain]           Print battery time remaining
-          istats battery [cycleCount | cc]         Print battery cycle count info
+          istats battery [cycle_count | cc]        Print battery cycle count info
           istats battery [temp | temperature]      Print battery temperature
           istats battery [charge]                  Print battery charge
           istats battery [capacity]                Print battery capacity info

@@ -36,7 +36,7 @@ If you are using RVM or homebrew to manage your Ruby installation you should be 
   istats fan [speed]                       Print fan speed
   istats battery                           Print all battery stats
   istats battery [health]                  Print battery health
-  istats battery [cycleCount | cc]         Print battery cycle count info
+  istats battery [cycle_count | cc]        Print battery cycle count info
   istats battery [temp | temperature]      Print battery temperature
   istats battery [time | remain]           Print battery time remaining
   istats battery [charge]                  Print battery charge
