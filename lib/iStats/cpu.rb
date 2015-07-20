@@ -5,6 +5,7 @@ module IStats
   class Cpu
     extend CPU_STATS
     class << self
+
       # Delegate CLI command to function
       #
       def delegate(stat)
