@@ -14,7 +14,7 @@ module IStats
         when 'temp', 'temperature'
           cpu_temperature
         else
-        Command.help "Unknown stat for CPU: #{stat}"
+          Command.help "Unknown stat for CPU: #{stat}"
         end
       end
 
