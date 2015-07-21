@@ -67,6 +67,13 @@ module IStats
         file.close
       end
       
+      def list
+        settings = ParseConfig.new(@configDir+@configFile)
+        settings.params.keys.each{|key|
+          puts key+" => "+SMC.name(key)+" Enabled = "+settings[key]['enabled']
+          }
+      end
+      
     end
   end
 end

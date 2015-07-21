@@ -37,6 +37,8 @@ module IStats
           SMC.delegate stat
         when 'set'
           Settings.add stat
+        when 'list'
+          Settings.list
         else
           help("Unknown category: #{category}")
         end
@@ -92,6 +94,7 @@ module IStats
           istats scan                              Scans and print temperatures
           istats scan [key]                        Print single SMC temperature key
           istats set [key]                         Enables key
+          istats list                              List available keys
 
           istats all                               Print all stats
           istats cpu                               Print all CPU stats

@@ -22,11 +22,10 @@ module IStats
         scan_supported_keys
       end
 
-      # Print temperature with sparkline
-      #
-      def scan_supported_keys
 
-        temp_sensors_name={
+      def name(key)
+      
+        sensors_name={
           'TA0P' => 'Ambient temperature',
           'TB0T' => 'Battery Temperature',
           'TA0p' => 'Ambient temperature',
@@ -62,11 +61,16 @@ module IStats
           'Ts1p' => 'Palm rest R'
 
         }
-
-        sensors=Hash.new
+        return sensors_name.fetch(key,"Unknown")
         
-       Settings.configFileExists
-       puts "Scanning keys"
+      end
+      # Print temperature with sparkline
+      #
+      def scan_supported_keys
+        
+        sensors=Hash.new
+        Settings.configFileExists
+        puts "Scanning keys"
         
         characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
         characters.each {|l1|
