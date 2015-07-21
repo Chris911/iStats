@@ -35,6 +35,8 @@ module IStats
           Battery.delegate stat
         when 'scan'
           SMC.delegate stat
+        when 'set'
+          Settings.add stat
         else
           help("Unknown category: #{category}")
         end
@@ -89,6 +91,7 @@ module IStats
 
           istats scan                              Scans and print temperatures
           istats scan [key]                        Print single SMC temperature key
+          istats set [key]                         Enables key
 
           istats all                               Print all stats
           istats cpu                               Print all CPU stats

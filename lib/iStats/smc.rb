@@ -78,7 +78,7 @@ module IStats
                 sensors['thresholds'] = [50, 68, 80, 90]
                 name=temp_sensors_name.fetch(key,"UNKNOWN")
                 sensors['name']=name
-                sensors['enabled']=1
+                sensors['enabled']=0
                 
                 Settings.addSensor(key,sensors)
 
