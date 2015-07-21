@@ -12,7 +12,7 @@ module IStats
         when 'all'
           all
         else
-        scan_supported_key(stat)
+          scan_supported_key(stat)
         end
       end
 
@@ -64,7 +64,10 @@ module IStats
         }
 
         sensors=Hash.new
-
+        
+       Settings.configFileExists
+       puts "Scanning keys"
+        
         characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
         characters.each {|l1|
           characters.each {|l2|
@@ -76,6 +79,7 @@ module IStats
                 name=temp_sensors_name.fetch(key,"UNKNOWN")
                 sensors['name']=name
                 sensors['enabled']=1
+                
                 Settings.addSensor(key,sensors)
 
                 puts "#{key} #{name}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, sensors['thresholds'])
