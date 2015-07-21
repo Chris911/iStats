@@ -24,7 +24,6 @@ module IStats
 
 
       def name(key)
-      
         sensors_name={
           'TA0P' => 'Ambient temperature',
           'TB0T' => 'Battery Temperature',
@@ -36,8 +35,9 @@ module IStats
           'TC0E' => '',
           'TC0F' => '',
           'TC0G' => '',
+          'TC0H' => 'CPU 0 Heatsink',
           'TC0J' => '',
-          'TC0P' => 'CPU_PROXIMITY_TEMPERATURE',
+          'TC0P' => 'CPU 0 Proximity',
           'TC0c' => '',
           'TC0d' => '',
           'TC0p' => '',
@@ -51,14 +51,19 @@ module IStats
           'TCGc' => '',
           'TCPG' => '',
           'TCSC' => '',
-          'TG0H' => '',
-          'TG0P' => '',
-          'TG0T' => '',
+          'TG0H' => 'GPU 0 Heatsink',
+          'TG0P' => 'GPU 0 Proximity',
+          'TG0D' => 'GPU 0 Die',
+          'TH0P' => 'Harddisk 0 Proximity',
           'Th1H' => 'NB/CPU/GPU HeatPipe 1 Proximity',
+          'TL0P' => 'LCD Proximity',
           'TM0P' => 'FBDIMM Riser A incoming air Temp',
           'Tm0p' => 'Misc (clock chip) Proximity',
+          'TO0P' => 'Optical Drive Proximity',
+          'Tp0P' => 'PowerSupply Proximity',
           'Ts0P' => 'Palm rest L',
-          'Ts1p' => 'Palm rest R'
+          'Ts1p' => 'Palm rest R',
+          'TW0P' => 'AirPort Proximity'
 
         }
         return sensors_name.fetch(key,"Unknown")
