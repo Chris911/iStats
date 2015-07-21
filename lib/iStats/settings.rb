@@ -68,10 +68,14 @@ module IStats
       end
       
       def list
-        settings = ParseConfig.new(@configDir+@configFile)
-        settings.params.keys.each{|key|
-          puts key+" => "+SMC.name(key)+" Enabled = "+settings[key]['enabled']
-          }
+        if File.exists?( @configDir+@configFile )
+          settings = ParseConfig.new(@configDir+@configFile)
+          settings.params.keys.each{|key|
+            puts key+" => "+SMC.name(key)+" Enabled = "+settings[key]['enabled']
+            }
+        else
+          puts "Run 'istats scan' first"
+        end
       end
       
     end
