@@ -12,7 +12,7 @@ module IStats
         else
            sensors=Hash.new
            sensors['thresholds'] = "[50, 68, 80, 90]"
-           name="CPU Die temperature"
+           name="CPU Proximity"
            sensors['name']=name
            sensors['enabled']="1"
            key="TC0P"
