@@ -87,7 +87,7 @@ module IStats
             }
           }
         }
-        
+       puts "All keys are disabled by default. Use istats set [key] to enable" 
       end
 
       def scan_supported_key(key)
