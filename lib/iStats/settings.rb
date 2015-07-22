@@ -6,13 +6,17 @@ module IStats
 
     class << self
 
-      def delegate(key)
-        add(key)
+      def delegate(stat)
+        case stat
+        when 'all'
+          enableAll
+        else
+          add(stat)
+        end
       end
 
 
       def load
-
         if File.exists?( @configDir+@configFile )
           $config = ParseConfig.new(@configDir+@configFile)
         else
@@ -65,6 +69,20 @@ module IStats
         file = File.open(@configDir+@configFile,'w')
         settings.write(file)
         file.close
+      end
+      
+      def enableAll
+        if File.exists?( @configDir+@configFile )
+          settings = ParseConfig.new(@configDir+@configFile)
+          settings.params.keys.each{|key|
+            settings.params[key]['enabled']="1"
+            }
+          file = File.open(@configDir+@configFile,'w')
+          settings.write(file)
+          file.close
+        else
+          puts "Run 'istats scan' first"
+        end
       end
       
       def list

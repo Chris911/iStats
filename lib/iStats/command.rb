@@ -36,7 +36,7 @@ module IStats
         when 'scan'
           SMC.delegate stat
         when 'set'
-          Settings.add stat
+          Settings.delegate stat
         when 'list'
           Settings.list
         else
@@ -93,7 +93,7 @@ module IStats
 
           istats scan                              Scans and print temperatures
           istats scan [key]                        Print single SMC temperature key
-          istats set [key]                         Enables key
+          istats set [key | all]                   Enables key
           istats list                              List available keys
 
           istats all                               Print all stats
