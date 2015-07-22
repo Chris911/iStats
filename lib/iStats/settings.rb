@@ -81,7 +81,9 @@ module IStats
         if File.exists?( @configDir+@configFile )
           settings = ParseConfig.new(@configDir+@configFile)
           settings.params.keys.each{|key|
-            settings.params[key]['enabled']=value
+            if (settings.params[key]['enabled'])            
+              settings.params[key]['enabled']=value
+            end
             }
           file = File.open(@configDir+@configFile,'w')
           settings.write(file)
