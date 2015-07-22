@@ -7,11 +7,22 @@ module IStats
     class << self
 
       def delegate(stat)
-        case stat
-        when 'all'
-          enableAll
+        
+        case stat[0]
+        when 'enable'
+          if (stat[1] == 'all')
+            toggleAll("1")
+          else
+            set(stat[1],"1")
+          end
+        when 'disable'
+          if (stat[1] == 'all')
+            toggleAll("0")
+          else
+            set(stat[1],"0")
+          end
         else
-          add(stat)
+          puts "Unknown command"
         end
       end
 
@@ -52,17 +63,12 @@ module IStats
         file.close
       end
       
-      def add(key)
+      def set(key,value)
         configFileExists
         settings = ParseConfig.new(@configDir+@configFile)
         sensors =settings.params
         if (sensors[key])
-          if (sensors[key]['enabled']== "0")
-            puts "Enabling key "+key
-            sensors[key]['enabled']="1"
-          else
-            puts "key already enabled"
-          end
+          sensors[key]['enabled']=value
         else
           puts "Not valid key"
         end
@@ -71,11 +77,11 @@ module IStats
         file.close
       end
       
-      def enableAll
+      def toggleAll(value)
         if File.exists?( @configDir+@configFile )
           settings = ParseConfig.new(@configDir+@configFile)
           settings.params.keys.each{|key|
-            settings.params[key]['enabled']="1"
+            settings.params[key]['enabled']=value
             }
           file = File.open(@configDir+@configFile,'w')
           settings.write(file)

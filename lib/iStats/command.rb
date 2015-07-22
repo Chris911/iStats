@@ -35,8 +35,10 @@ module IStats
           Battery.delegate stat
         when 'scan'
           SMC.delegate stat
-        when 'set'
-          Settings.delegate stat
+        when 'enable'
+          Settings.delegate ['enable',stat]
+        when 'disable'
+          Settings.delegate ['disable',stat]
         when 'list'
           Settings.list
         else
@@ -93,7 +95,8 @@ module IStats
 
           istats scan                              Scans and print temperatures
           istats scan [key]                        Print single SMC temperature key
-          istats set [key | all]                   Enables key
+          istats enable [key | all]                Enables key
+          istats disable [key | all]
           istats list                              List available keys
 
           istats all                               Print all stats
