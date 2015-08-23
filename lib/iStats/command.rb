@@ -12,7 +12,7 @@ module IStats
         # Default command is 'all'
         category = args.empty? ? 'all' : args.shift
         stat     = args.empty? ? 'all' : args.shift
-        
+
         Settings.load;
         parse_options
         delegate(category, stat)
@@ -33,6 +33,8 @@ module IStats
           Fan.delegate stat
         when 'battery'
           Battery.delegate stat
+        when 'extra'
+          Extra.delegate stat
         when 'scan'
           SMC.delegate stat
         when 'enable'
@@ -55,6 +57,14 @@ module IStats
         Fan.all
         puts "\n--- Battery Stats ---\n"
         Battery.all
+
+        sensors = $config.params
+        if sensors.keys.any? {|key| sensors[key]['enabled'] == "1"}
+          puts "\n--- Extra Stats ---\n"
+          Extra.all
+        else
+          puts "\nFor more stats run `istats extra` and follow the instructions."
+        end
       end
 
       # Public: Parse extra options
@@ -93,12 +103,6 @@ module IStats
           istats --help                            This help text
           istats --version                         Print current version
 
-          istats scan                              Scans and print temperatures
-          istats scan [key]                        Print single SMC temperature key
-          istats enable [key | all]                Enables key
-          istats disable [key | all]
-          istats list                              List available keys
-
           istats all                               Print all stats
           istats cpu                               Print all CPU stats
           istats cpu [temp | temperature]          Print CPU temperature
@@ -111,6 +115,12 @@ module IStats
           istats battery [temp | temperature]      Print battery temperature
           istats battery [charge]                  Print battery charge
           istats battery [capacity]                Print battery capacity info
+            
+          istats scan                              Scans and print temperatures
+          istats scan [key]                        Print single SMC temperature key
+          istats enable [key | all]                Enables key
+          istats disable [key | all]               Disable key
+          istats list                              List available keys
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

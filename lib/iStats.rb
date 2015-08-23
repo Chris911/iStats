@@ -14,6 +14,7 @@ require 'iStats/command'
 require 'iStats/cpu'
 require 'iStats/fan'
 require 'iStats/battery'
+require 'iStats/extra'
 require 'iStats/smc'
 require 'iStats/settings'
 
