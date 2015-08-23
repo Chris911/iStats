@@ -24,9 +24,10 @@ spec = Gem::Specification.new do |s|
   s.extensions = FileList["ext/**/extconf.rb"]
 
   s.required_ruby_version = ">= 1.9.3"
-
+  
   s.add_dependency "sparkr", "~> 0.4"
-
+  s.add_dependency "parseconfig", ">= 0"
+  
   s.add_development_dependency "bundler", "~> 1.3"
   s.add_development_dependency "rake", "~> 1.8"
   s.add_development_dependency "rake-compiler", "~> 1.8"

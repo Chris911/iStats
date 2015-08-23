@@ -318,6 +318,7 @@ int getBatteryCharge() {
 /*
  RUBY MODULES
 */
+VALUE SMC_INFO = Qnil;
 VALUE CPU_STATS = Qnil;
 VALUE FAN_STATS = Qnil;
 VALUE BATTERY_STATS = Qnil;
@@ -326,6 +327,10 @@ VALUE BATTERY_STATS = Qnil;
  * We never call this, Ruby does.
 */
 void Init_osx_stats() {
+    
+    SMC_INFO = rb_define_module("SMC_INFO");
+    rb_define_method(SMC_INFO,"is_key_supported",method_SMCKeySupported,1);
+    
     CPU_STATS = rb_define_module("CPU_STATS");
     rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
 
@@ -341,6 +346,17 @@ void Init_osx_stats() {
     rb_define_method(BATTERY_STATS, "get_battery_time_remaining", method_get_battery_time_remaining, 0);
     rb_define_method(BATTERY_STATS, "get_battery_charge", method_get_battery_charge, 0);
 }
+
+VALUE method_SMCKeySupported(VALUE self, VALUE key)
+{
+    char *keyString = RSTRING_PTR(key);
+    SMCOpen();
+    double temp = SMCGetTemperature(keyString);
+    SMCClose();
+    
+    return rb_float_new(temp);
+}
+
 
 VALUE method_get_cpu_temp(VALUE self) {
     SMCOpen();

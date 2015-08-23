@@ -12,7 +12,8 @@ module IStats
         # Default command is 'all'
         category = args.empty? ? 'all' : args.shift
         stat     = args.empty? ? 'all' : args.shift
-
+        
+        Settings.load;
         parse_options
         delegate(category, stat)
       end
@@ -32,6 +33,14 @@ module IStats
           Fan.delegate stat
         when 'battery'
           Battery.delegate stat
+        when 'scan'
+          SMC.delegate stat
+        when 'enable'
+          Settings.delegate ['enable',stat]
+        when 'disable'
+          Settings.delegate ['disable',stat]
+        when 'list'
+          Settings.list
         else
           help("Unknown category: #{category}")
         end
@@ -83,6 +92,12 @@ module IStats
 
           istats --help                            This help text
           istats --version                         Print current version
+
+          istats scan                              Scans and print temperatures
+          istats scan [key]                        Print single SMC temperature key
+          istats enable [key | all]                Enables key
+          istats disable [key | all]
+          istats list                              List available keys
 
           istats all                               Print all stats
           istats cpu                               Print all CPU stats
