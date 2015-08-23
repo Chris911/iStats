@@ -23,7 +23,7 @@ module IStats
       end
 
       def name(key)
-        sensors_name={
+        sensors_name = {
           'TA0P' => 'Ambient temperature',
           'TA0p' => 'Ambient temperature',
           'TA1P' => 'Ambient temperature',
@@ -80,43 +80,43 @@ module IStats
           'Tm0p' => 'Misc (clock chip) Proximity',
           'TO0P' => 'Optical Drive Proximity',
           'Tp0P' => 'PowerSupply Proximity',
-          'TS0C' => 'Expansion slots',          
+          'TS0C' => 'Expansion slots',
           'Ts0P' => 'Palm rest L',
           'Ts0S' => 'Memory Bank Proximity',
           'Ts1p' => 'Palm rest R',
           'TW0P' => 'AirPort Proximity'
-
         }
+
         return sensors_name.fetch(key,"Unknown")
-        
+
       end
       # Print temperature with sparkline
       #
       def scan_supported_keys
-        
-        sensors=Hash.new
+        sensors = Hash.new
         Settings.configFileExists
-        puts "Scanning keys"
-        
+
+        puts "Scanning keys\n"
+
         characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
         characters.each {|l1|
           characters.each {|l2|
             characters.each {|l3|
-              key="T#{l1}#{l2}#{l3}"
-              t=is_key_supported(key);
+              key = "T#{l1}#{l2}#{l3}"
+              t = is_key_supported(key);
               if (t != 0.0)
                 sensors['thresholds'] = [50, 68, 80, 90]
-                sensors['name']=name(key)
-                sensors['enabled']=0
-                
-                Settings.addSensor(key,sensors)
+                sensors['name'] = name(key)
+                sensors['enabled'] = 0
+
+                Settings.addSensor(key, sensors)
 
                 puts "#{key} #{sensors['name']}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, sensors['thresholds'])
               end
             }
           }
         }
-       puts "All keys are disabled by default. Use istats set [key] to enable" 
+       puts "\nAll keys are disabled by default. Use `istats set [key]` to enable"
       end
 
       def scan_supported_key(key)

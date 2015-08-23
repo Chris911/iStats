@@ -27,15 +27,15 @@ module IStats
 
       # Print CPU temperature with sparkline
       #
-      def cpu_temperature        
-        sensors =$config.params
-        display=sensors['AltDisplay']
+      def cpu_temperature
+        sensors = $config.params
+        display = sensors['AltDisplay']
         sensors.keys.each{|key|
-          if (sensors[key]['enabled']== "1")
+          if (sensors[key]['enabled'] == "1")
             t = SMC.is_key_supported(key).round(2);
-            thresholds=sensors[key]['thresholds'][1..-2].split(/, /).map { |s| s.to_i }        
-            if (display)    
-              puts "#{key} #{t}#{Symbols.degree}C \t"+ Printer.gen_sparkline(t, thresholds)+" #{sensors[key]['name']}"
+            thresholds=sensors[key]['thresholds'][1..-2].split(/, /).map { |s| s.to_i }
+            if (display)
+              puts "#{key} #{t}#{Symbols.degree}C \t" + Printer.gen_sparkline(t, thresholds) + " #{sensors[key]['name']}"
             else
               puts "#{key} #{sensors[key]['name']} temp: #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
             end
