@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -21,7 +21,7 @@
       <div class="inner">
         <h1>iStats</h1>
         <h2>Ruby gem for your mac stats</h2>
-        <a href="https://github.com/Chris911/iStats" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/Chris911/iStats" class="button"><small>View project on</small> GitHub</a>
       </div>
     </header>
 
@@ -29,39 +29,38 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
-<a name="istats-" class="anchor" href="#istats-"><span class="octicon octicon-link"></span></a>iStats <a href="http://badge.fury.io/rb/iStats"><img src="https://badge.fury.io/rb/iStats.svg" alt="Gem Version"></a>
+<a id="istats-" class="anchor" href="#istats-" aria-hidden="true"><span class="octicon octicon-link"></span></a>iStats <a href="http://badge.fury.io/rb/iStats"><img src="https://badge.fury.io/rb/iStats.svg" alt="Gem Version"></a>
 </h1>
 
 <p>iStats is a command-line tool that allows you to easily grab the CPU temperature, fan speeds and battery information on OS X. If you'd like to see more data available feel free to open an issue.</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <pre><code>$ gem install iStats
 </code></pre>
 
-<h4>
-<a name="warning" class="anchor" href="#warning"><span class="octicon octicon-link"></span></a>Warning</h4>
+<h5>
+<a id="note" class="anchor" href="#note" aria-hidden="true"><span class="octicon octicon-link"></span></a>Note</h5>
 
-<p><strong>This is now fixed with the release of OS X 10.9.3</strong><br>
-A <a href="https://bugs.ruby-lang.org/issues/9624">bug in Ruby</a> and Apple XCode 5.1 onwards (new CLANG version) might make it impossible to install this gem if you are using Ruby from the Xcode command-line tools package. If you see an error when the gem is building the native extension try to use this command to install iStats: <br><code>sudo ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future gem install iStats</code><br>
-If you are using RVM or homebrew to manage your Ruby installation you should be fine.</p>
+<p>If you are running an older version of OS X and the install fails you might want to try running this command instead:<br>
+<code>sudo ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future gem install iStats</code></p>
 
 <h2>
-<a name="screenshot" class="anchor" href="#screenshot"><span class="octicon octicon-link"></span></a>Screenshot</h2>
+<a id="screenshot" class="anchor" href="#screenshot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshot</h2>
 
 <h4>
-<a name="all-stats" class="anchor" href="#all-stats"><span class="octicon octicon-link"></span></a>All Stats</h4>
+<a id="all-stats" class="anchor" href="#all-stats" aria-hidden="true"><span class="octicon octicon-link"></span></a>All Stats</h4>
 
 <p><img src="http://i.imgur.com/c4xLB8u.png" alt=""></p>
 
 <h4>
-<a name="sparkline-levels" class="anchor" href="#sparkline-levels"><span class="octicon octicon-link"></span></a>Sparkline levels</h4>
+<a id="sparkline-levels" class="anchor" href="#sparkline-levels" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sparkline levels</h4>
 
 <p><img src="http://i.imgur.com/ht2NZCL.gif" alt=""></p>
 
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <pre><code>  - iStats: help ---------------------------------------------------
 
@@ -75,17 +74,34 @@ If you are using RVM or homebrew to manage your Ruby installation you should be 
   istats fan [speed]                       Print fan speed
   istats battery                           Print all battery stats
   istats battery [health]                  Print battery health
-  istats battery [cycleCount | cc]         Print battery cycle count info
+  istats battery [cycle_count | cc]        Print battery cycle count info
   istats battery [temp | temperature]      Print battery temperature
   istats battery [time | remain]           Print battery time remaining
   istats battery [charge]                  Print battery charge
   istats battery [capacity]                Print battery capacity info
 
+  istats scan                              Scans and print temperatures
+  istats scan [key]                        Print single SMC temperature key
+  istats enable [key | all]                Enables key
+  istats disable [key | all]               Disable key
+  istats list                              List available keys
+
   for more help see: https://github.com/Chris911/iStats
 </code></pre>
 
 <h2>
-<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+<a id="advanced-usage" class="anchor" href="#advanced-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Advanced usage</h2>
+
+<p>iStats now supports extra sensors for advanced users. Here's how to enable that functionality: </p>
+
+<ol>
+<li>Run <code>istats scan</code> to scan your computer for SMC sensors</li>
+<li>Enable extra sensors by running <code>istats enable key</code> or <code>istats enable all</code> </li>
+<li>Run <code>istats</code> or <code>istats extra</code> to see the extra sensors information.</li>
+</ol>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
@@ -93,12 +109,18 @@ If you are using RVM or homebrew to manage your Ruby installation you should be 
 <li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
 <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
 <li>Create new Pull Request</li>
-</ol><h4>
-<a name="tested-on" class="anchor" href="#tested-on"><span class="octicon octicon-link"></span></a>Tested on</h4>
+</ol>
+
+<h4>
+<a id="tested-on" class="anchor" href="#tested-on" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tested on</h4>
 
 <p>MacBook Pro 2012<br>
-OS X 10.9.2<br>
-Ruby: 1.9.3, 2.0.0, 2.1.1<br></p>
+OS X: 10.9.3<br>
+Ruby: 1.9.3, 2.0.0, 2.1.1    </p>
+
+<p>MacBook Pro 2014<br>
+OS X: 10.10.3, 10.10.4<br>
+Ruby: 2.1.3    </p>
         </section>
 
         <aside id="sidebar">
