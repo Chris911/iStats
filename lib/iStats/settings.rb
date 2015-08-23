@@ -29,15 +29,8 @@ module IStats
         if File.exists?(@configDir + @configFile)
           $config = ParseConfig.new(@configDir + @configFile)
         else
-           sensors = Hash.new
-           sensors['thresholds'] = "[50, 68, 80, 90]"
-           name = "CPU Proximity"
-           sensors['name'] = name
-           sensors['enabled'] = "1"
-           key=  "TC0P"
            $config = ParseConfig.new
-           $config.add(key,sensors)
-        end
+         end
       end
 
       def configFileExists

@@ -96,7 +96,7 @@ module IStats
         sensors = Hash.new
         Settings.configFileExists
 
-        puts "Scanning keys\n"
+        puts "Scanning keys...\n\n"
 
         characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
         characters.each {|l1|
@@ -116,7 +116,9 @@ module IStats
             }
           }
         }
-       puts "\nAll keys are disabled by default. Use `istats set [key]` to enable"
+        puts "\nDone scanning keys.\n"
+        puts "All keys are disabled by default. Use `istats set [key]` to enable specific keys or `istats enable all`."
+        puts "The enabled sensors will show up when running `istats` or `istats extra`."
       end
 
       def scan_supported_key(key)
