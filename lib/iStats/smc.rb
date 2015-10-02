@@ -117,7 +117,7 @@ module IStats
           }
         }
         puts "\nDone scanning keys.\n"
-        puts "All keys are disabled by default. Use `istats set [key]` to enable specific keys or `istats enable all`."
+        puts "All keys are disabled by default. Use `istats enable [key]` to enable specific keys or `istats enable all`."
         puts "The enabled sensors will show up when running `istats` or `istats extra`."
       end
 
