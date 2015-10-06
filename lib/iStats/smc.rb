@@ -80,6 +80,7 @@ module IStats
           'Tm0p' => 'Misc (clock chip) Proximity',
           'TO0P' => 'Optical Drive Proximity',
           'Tp0P' => 'PowerSupply Proximity',
+          'TPCD' => 'Platform Controller Hub Die',
           'TS0C' => 'Expansion slots',
           'Ts0P' => 'Palm rest L',
           'Ts0S' => 'Memory Bank Proximity',
