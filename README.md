@@ -65,6 +65,10 @@ iStats now supports extra sensors for advanced users. Here's how to enable that 
 5. Create new Pull Request
 
 #### Tested on
+MacBook Pro 2011
+OS X: 10.11.6
+Ruby: 2.0.0
+
 MacBook Pro 2012    
 OS X: 10.9.3    
 Ruby: 1.9.3, 2.0.0, 2.1.1    
