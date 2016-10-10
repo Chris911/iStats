@@ -5,4 +5,4 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 require 'iStats'
 
-IStats::Command.execute(*ARGV)
+IStats::Command.execute()
