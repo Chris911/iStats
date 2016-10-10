@@ -23,27 +23,31 @@ If you are running an older version of OS X and the install fails you might want
 ```
   - iStats: help ---------------------------------------------------
 
-  istats --help                            This help text
-  istats --version                         Print current version
+  istats --help                        This help text
+  istats --version                     Print current version
 
-  istats all                               Print all stats
-  istats cpu                               Print all CPU stats
-  istats cpu [temp | temperature]          Print CPU temperature
-  istats fan                               Print all fan stats
-  istats fan [speed]                       Print fan speed
-  istats battery                           Print all battery stats
-  istats battery [health]                  Print battery health
-  istats battery [cycle_count | cc]        Print battery cycle count info
-  istats battery [temp | temperature]      Print battery temperature
-  istats battery [time | remain]           Print battery time remaining
-  istats battery [charge]                  Print battery charge
-  istats battery [capacity]                Print battery capacity info
+  # Commands
+  istats all                           Print all stats
+  istats cpu                           Print all CPU stats
+  istats cpu [temp | temperature]      Print CPU temperature
+  istats fan                           Print all fan stats
+  istats fan [speed]                   Print fan speed
+  istats battery                       Print all battery stats
+  istats battery [health]              Print battery health
+  istats battery [time | remain]       Print battery time remaining
+  istats battery [cycle_count | cc]    Print battery cycle count info
+  istats battery [temp | temperature]  Print battery temperature
+  istats battery [charge]              Print battery charge
+  istats battery [capacity]            Print battery capacity info
 
-  istats scan                              Scans and print temperatures
-  istats scan [key]                        Print single SMC temperature key
-  istats enable [key | all]                Enables key
-  istats disable [key | all]               Disable key
-  istats list                              List available keys
+  istats scan                          Scans and print temperatures
+  istats scan [key]                    Print single SMC temperature key
+  istats enable [key | all]            Enables key
+  istats disable [key | all]           Disable key
+  istats list                          List available keys
+
+  # Arguments
+  --no-graphs                          Don't display sparklines graphs
 
   for more help see: https://github.com/Chris911/iStats
 ```
