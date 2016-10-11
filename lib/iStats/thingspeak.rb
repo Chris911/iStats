@@ -64,9 +64,7 @@ module IStats
                     fields.store("field"+$1, SMC.get_supported_key(channels[key]))
                   end
         }
-        fields.keys.each {|key| p}
         client.update_channel(fields) # => 3
-
       end
 
     end
