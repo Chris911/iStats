@@ -126,6 +126,11 @@ module IStats
         t = is_key_supported(key)
         puts " Scanned #{key} result = #{t}";
       end
+
+      def get_supported_key(key)
+        t = is_key_supported(key)
+        return t
+      end
     end
   end
 end
