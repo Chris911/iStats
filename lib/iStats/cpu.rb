@@ -1,4 +1,4 @@
-  # CPU Stats
+# CPU Stats
 # Extend CPU_STATS C module (ext/osx_stats/smc.c)
 #
 module IStats

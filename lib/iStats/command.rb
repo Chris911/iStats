@@ -7,7 +7,7 @@ module IStats
       # Executes a command
       #
       def execute
-        Settings.load()
+        Settings.load
 
         options = parse_options
 
@@ -53,7 +53,7 @@ module IStats
           Settings.delegate ['disable',stat]
         when 'list'
           Settings.list
-         when 'thingspeak'
+        when 'thingspeak'
           Thingspeak.delegate stat
         else
           help("Unknown category: #{category}")
