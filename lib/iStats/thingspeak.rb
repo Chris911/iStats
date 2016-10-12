@@ -72,9 +72,12 @@ found_gspec = gdep.matching_specs.max_by(&:version)
         }
         client.update_channel(fields) # => 3
       end
-      end
+      
       else
-      putsh "instal thingspeak"
+      puts "gem install thingspeak-api --pre"
+        
+      end
+        
 
     end
 
