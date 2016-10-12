@@ -1,7 +1,8 @@
 module IStats
   class Thingspeak
-
-    require 'thingspeak'
+    gem_name, *gem_ver_reqs = 'thingspeak-api', '>0'
+    gdep = Gem::Dependency.new(gem_name, *gem_ver_reqs)
+    @found_gspec = gdep.matching_specs.max_by(&:version)
     require 'parseconfig'
     @configFile = "thingspeak.conf"
     @configDir = File.expand_path("~/.iStats") + "/"
@@ -55,6 +56,8 @@ module IStats
       end
 
       def sendToThingSpeak()
+        if @found_gspec
+        require 'thingspeak'
         client = ThingSpeak::Client.new($thingspeak_config["WRITE_API_KEY"], $thingspeak_config["READ_API_KEY"])
         # post an update to your channel, returns the identifier of the new post if successful
         channels =$thingspeak_config.params
@@ -65,12 +68,10 @@ module IStats
                   end
         }
         client.update_channel(fields) # => 3
+        else
+          puts "gem install thingspeak-api --pre"
+        end
       end
-
     end
-
-
-
-
   end
 end
