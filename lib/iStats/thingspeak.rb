@@ -1,6 +1,11 @@
 module IStats
   class Thingspeak
+gem_name, *gem_ver_reqs = 'thingspeak', '~> 0.0.0'
+gdep = Gem::Dependency.new(gem_name, *gem_ver_reqs)
+found_gspec = gdep.matching_specs.max_by(&:version)
 
+if found_gspec
+  puts "Requirement '#{gdep}' already satisfied by #{found_gspec.name}-#{found_gspec.version}"
     require 'thingspeak'
     require 'parseconfig'
     @configFile = "thingspeak.conf"
@@ -71,6 +76,6 @@ module IStats
 
 
 
-
+end
   end
 end
