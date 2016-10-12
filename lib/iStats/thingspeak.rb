@@ -3,6 +3,7 @@ module IStats
     gem_name, *gem_ver_reqs = 'thingspeak-api', '>0'
     gdep = Gem::Dependency.new(gem_name, *gem_ver_reqs)
     @found_gspec = gdep.matching_specs.max_by(&:version)
+
     require 'parseconfig'
     @configFile = "thingspeak.conf"
     @configDir = File.expand_path("~/.iStats") + "/"
