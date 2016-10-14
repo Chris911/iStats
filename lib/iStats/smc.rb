@@ -112,7 +112,7 @@ module IStats
 
                 Settings.addSensor(key, sensors)
 
-                puts "#{key} #{sensors['name']}  #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, sensors['thresholds'])
+                puts "#{key} #{sensors['name']}  #{Printer.format_temperature(t)}  #{Printer.gen_sparkline(t, sensors['thresholds'])}"
               end
             }
           }
