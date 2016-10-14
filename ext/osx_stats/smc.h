@@ -103,6 +103,7 @@ CFDictionaryRef IOPSGetPowerSourceDescription(CFTypeRef blob, CFTypeRef ps);
 
 // Ruby modules
 void Init_osx_stats();
+VALUE method_SMCKeySupported(VALUE self, VALUE key);
 VALUE method_get_cpu_temp(VALUE self);
 VALUE method_get_fan_speed(VALUE self, VALUE num);
 VALUE method_get_fan_number(VALUE self);

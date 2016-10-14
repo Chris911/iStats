@@ -6,15 +6,26 @@ module IStats
 
       # Executes a command
       #
-      # args - Command line arguments
-      #
-      def execute(*args)
-        # Default command is 'all'
-        category = args.empty? ? 'all' : args.shift
-        stat     = args.empty? ? 'all' : args.shift
+      def execute
+        Settings.load
 
-        parse_options
-        delegate(category, stat)
+        options = parse_options
+
+        # Default command is 'all'
+        category = ARGV.empty? ? 'all' : ARGV.shift
+        stat     = ARGV.empty? ? 'all' : ARGV.shift
+
+        setup options
+
+        delegate(category, stat, options)
+      end
+
+      # Setup execution by applying global settings
+      #
+      # options - command line options
+      #
+      def setup(options)
+        Printer.disable_graphs unless options[:display_graphs]
       end
 
       # Delegate command to proper class
@@ -22,7 +33,7 @@ module IStats
       # category - Hardware we are targeting (CPU, fan, etc.)
       # stat     - The stat we want
       #
-      def delegate(category, stat)
+      def delegate(category, stat, options)
         case category
         when 'all'
           all
@@ -32,6 +43,16 @@ module IStats
           Fan.delegate stat
         when 'battery'
           Battery.delegate stat
+        when 'extra'
+          Extra.delegate stat
+        when 'scan'
+          SMC.delegate stat
+        when 'enable'
+          Settings.delegate ['enable',stat]
+        when 'disable'
+          Settings.delegate ['disable',stat]
+        when 'list'
+          Settings.list
         else
           help("Unknown category: #{category}")
         end
@@ -46,24 +67,41 @@ module IStats
         Fan.all
         puts "\n--- Battery Stats ---\n"
         Battery.all
+
+        sensors = $config.params
+        if sensors.keys.any? {|key| sensors[key]['enabled'] == "1"}
+          puts "\n--- Extra Stats ---\n"
+          Extra.all
+        else
+          puts "\nFor more stats run `istats extra` and follow the instructions."
+        end
       end
 
       # Public: Parse extra options
       #
       # returns nothing
       def parse_options
-        o = OptionParser.new do |opts|
+        options = {:display_graphs => true}
+
+        opt_parser = OptionParser.new do |opts|
           opts.on('-v', '--version', 'Print Version') do
             puts "iStats v#{IStats::VERSION}"
             quit
           end
+
           opts.on('-h', '--help', 'Print Help') do
             help
             quit
           end
+
+          opts.on('--no-graphs', 'Don\'t display graphs') do
+            options[:display_graphs] = false
+          end
         end
+
         begin
-          o.parse!
+          opt_parser.parse!
+          options
         rescue OptionParser::MissingArgument => e
           help e.message
           quit
@@ -81,21 +119,31 @@ module IStats
         " #{error.nil? ? '' : red("\n[Error] #{error}\n")}
           - iStats: help ---------------------------------------------------
 
-          istats --help                            This help text
-          istats --version                         Print current version
+          istats --help                        This help text
+          istats --version                     Print current version
 
-          istats all                               Print all stats
-          istats cpu                               Print all CPU stats
-          istats cpu [temp | temperature]          Print CPU temperature
-          istats fan                               Print all fan stats
-          istats fan [speed]                       Print fan speed
-          istats battery                           Print all battery stats
-          istats battery [health]                  Print battery health
-          istats battery [time | remain]           Print battery time remaining
-          istats battery [cycleCount | cc]         Print battery cycle count info
-          istats battery [temp | temperature]      Print battery temperature
-          istats battery [charge]                  Print battery charge
-          istats battery [capacity]                Print battery capacity info
+          # Commands
+          istats all                           Print all stats
+          istats cpu                           Print all CPU stats
+          istats cpu [temp | temperature]      Print CPU temperature
+          istats fan                           Print all fan stats
+          istats fan [speed]                   Print fan speed
+          istats battery                       Print all battery stats
+          istats battery [health]              Print battery health
+          istats battery [time | remain]       Print battery time remaining
+          istats battery [cycle_count | cc]    Print battery cycle count info
+          istats battery [temp | temperature]  Print battery temperature
+          istats battery [charge]              Print battery charge
+          istats battery [capacity]            Print battery capacity info
+
+          istats scan                          Scans and print temperatures
+          istats scan [key]                    Print single SMC temperature key
+          istats enable [key | all]            Enables key
+          istats disable [key | all]           Disable key
+          istats list                          List available keys
+
+          # Arguments
+          --no-graphs                          Don't display sparklines graphs
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

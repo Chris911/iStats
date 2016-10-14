@@ -1,7 +1,13 @@
 module IStats
   class Printer
+    @display_graphs = true
+
     class << self
       include IStats::Color
+
+      def disable_graphs
+        @display_graphs = false
+      end
 
       # Create colored sparkline
       # value      - The stat value
@@ -9,6 +15,9 @@ module IStats
       #              for the sparkline colors
       #
       def gen_sparkline(value, thresholds)
+        # Graphs can be disabled globally
+        return '' unless @display_graphs
+
         return if thresholds.count < 4
 
         list = [0, 30, 55, 80, 100, 130]

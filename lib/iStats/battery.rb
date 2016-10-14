@@ -46,8 +46,8 @@ module IStats
       # Prints the battery cycle count info
       #
       def cycle_count
-        data = %x( ioreg -l | grep "CycleCount" )
-        cycle_count = data[/"CycleCount" = ([0-9]*)/, 1]
+        @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
+        cycle_count = @ioreg_out[/"CycleCount" = ([0-9]*)/, 1]
         if cycle_count == nil
           puts "Cycle count: unknown"
         else
@@ -62,8 +62,8 @@ module IStats
       # Get information from ioreg
       #
       def grep_ioreg(keyword)
-        data = %x( ioreg -l | grep "#{keyword}" )
-        capacity = data[/"#{keyword}" = ([0-9]*)/, 1]
+        @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
+        capacity = @ioreg_out[/"#{keyword}" = ([0-9]*)/, 1]
       end
 
       # Original max capacity
@@ -89,7 +89,9 @@ module IStats
       def print_capacity_info
         percentage = (cur_max_capacity.to_f/ori_max_capacity.to_f)*100
         thresholds = [45, 65, 85, 95]
-        puts "Current charge:  #{cur_capacity} mAh"
+        charge = get_battery_charge
+        charge = charge ? "  #{charge}%" : ""
+        puts "Current charge:  #{cur_capacity} mAh#{charge}"
         puts "Maximum charge:  #{cur_max_capacity} mAh " + Printer.gen_sparkline(100-percentage, thresholds) + "  #{percentage.round(1)}%"
         puts "Design capacity: #{ori_max_capacity} mAh"
       end

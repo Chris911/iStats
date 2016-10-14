@@ -1,3 +1,3 @@
 module IStats
-  VERSION = '0.0.9'
+  VERSION = '1.3.0'
 end

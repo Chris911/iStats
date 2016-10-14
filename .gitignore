@@ -34,3 +34,9 @@ build/
 .rvmrc
 
 Makefile.ori
+
+# Compiled files
+ext/osx_stats/Makefile
+ext/osx_stats/osx_stats.bundle
+ext/osx_stats/smc.o
+lib/osx_stats.bundle

@@ -7,12 +7,9 @@ iStats is a command-line tool that allows you to easily grab the CPU temperature
 
     $ gem install iStats
 
-#### Warning
-**This is now fixed with the release of OS X 10.9.3**<br>
-A [bug in Ruby](https://bugs.ruby-lang.org/issues/9624) and Apple XCode 5.1 onwards (new CLANG version) might make it impossible to install this gem if you are using Ruby from the Xcode command-line tools package. If you see an error when the gem is building the native extension try to use this command to install iStats: <br>
-`sudo ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future gem install iStats`<br>
-If you are using RVM or homebrew to manage your Ruby installation you should be fine.
-
+##### Note
+If you are running an older version of OS X and the install fails you might want to try running this command instead:     
+`sudo ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future gem install iStats`
 
 ## Screenshot
 #### All Stats
@@ -26,24 +23,42 @@ If you are using RVM or homebrew to manage your Ruby installation you should be 
 ```
   - iStats: help ---------------------------------------------------
 
-  istats --help                            This help text
-  istats --version                         Print current version
+  istats --help                        This help text
+  istats --version                     Print current version
 
-  istats all                               Print all stats
-  istats cpu                               Print all CPU stats
-  istats cpu [temp | temperature]          Print CPU temperature
-  istats fan                               Print all fan stats
-  istats fan [speed]                       Print fan speed
-  istats battery                           Print all battery stats
-  istats battery [health]                  Print battery health
-  istats battery [cycleCount | cc]         Print battery cycle count info
-  istats battery [temp | temperature]      Print battery temperature
-  istats battery [time | remain]           Print battery time remaining
-  istats battery [charge]                  Print battery charge
-  istats battery [capacity]                Print battery capacity info
+  # Commands
+  istats all                           Print all stats
+  istats cpu                           Print all CPU stats
+  istats cpu [temp | temperature]      Print CPU temperature
+  istats fan                           Print all fan stats
+  istats fan [speed]                   Print fan speed
+  istats battery                       Print all battery stats
+  istats battery [health]              Print battery health
+  istats battery [time | remain]       Print battery time remaining
+  istats battery [cycle_count | cc]    Print battery cycle count info
+  istats battery [temp | temperature]  Print battery temperature
+  istats battery [charge]              Print battery charge
+  istats battery [capacity]            Print battery capacity info
+
+  istats scan                          Scans and print temperatures
+  istats scan [key]                    Print single SMC temperature key
+  istats enable [key | all]            Enables key
+  istats disable [key | all]           Disable key
+  istats list                          List available keys
+
+  # Arguments
+  --no-graphs                          Don't display sparklines graphs
 
   for more help see: https://github.com/Chris911/iStats
 ```
+
+## Advanced usage
+
+iStats now supports extra sensors for advanced users. Here's how to enable that functionality: 
+
+1. Run `istats scan` to scan your computer for SMC sensors
+2. Enable extra sensors by running `istats enable key` or `istats enable all` 
+3. Run `istats` or `istats extra` to see the extra sensors information.
 
 ## Contributing
 
@@ -54,6 +69,15 @@ If you are using RVM or homebrew to manage your Ruby installation you should be 
 5. Create new Pull Request
 
 #### Tested on
-MacBook Pro 2012<br>
-OS X 10.9.3<br>
-Ruby: 1.9.3, 2.0.0, 2.1.1<br>
+
+MacBook Pro 2011
+OS X: 10.11.6
+Ruby: 2.0.0
+
+MacBook Pro 2012    
+OS X: 10.9.3    
+Ruby: 1.9.3, 2.0.0, 2.1.1    
+
+MacBook Pro 2014    
+OS X: 10.10.3, 10.10.4    
+Ruby: 2.1.3    
