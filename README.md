@@ -48,6 +48,7 @@ If you are running an older version of OS X and the install fails you might want
 
   # Arguments
   --no-graphs                          Don't display sparklines graphs
+  -f, --fahrenheit                     Display temperatures in fahrenheit
 
   for more help see: https://github.com/Chris911/iStats
 ```
