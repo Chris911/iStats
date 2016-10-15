@@ -46,14 +46,14 @@ module IStats
         end
       end
 
-      # Pretty print sensor tempaerature
+      # Pretty print sensor temperature
       def display_temp(key, sensor, display)
         t = SMC.is_key_supported(key).round(2);
         thresholds = sensor['thresholds'][1..-2].split(/, /).map { |s| s.to_i }
         if (display)
-          puts "#{key} #{t}#{Symbols.degree}C \t" + Printer.gen_sparkline(t, thresholds) + " #{sensor['name']}"
+          puts "#{key} #{Printer.format_temperature(t)} \t#{Printer.gen_sparkline(t, thresholds)} #{sensor['name']}"
         else
-          puts "#{key} #{sensor['name']} temp: #{t}#{Symbols.degree}C  " + Printer.gen_sparkline(t, thresholds)
+          puts "#{key} #{sensor['name']} temp: #{Printer.format_temperature(t)}  #{Printer.gen_sparkline(t, thresholds)}"
         end
       end
     end
