@@ -99,8 +99,7 @@ module IStats
       # Get the battery temperature
       #
       def battery_temperature
-        t = get_battery_temp.round(2)
-        puts "Battery temp: #{Printer.format_temperature(t)}  "
+        puts "Battery temp: #{Printer.format_temperature(get_battery_temp)}  "
       end
 
       # Get the battery health

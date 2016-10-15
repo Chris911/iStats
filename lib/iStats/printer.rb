@@ -49,9 +49,9 @@ module IStats
       # Returns the temperature string.
       def format_temperature(temperature)
         if @temperature_scale == 'celcius'
-          "#{temperature}#{Symbols.degree}C"
+          "#{temperature.round(2)}#{Symbols.degree}C"
         else
-          "#{Utils.to_fahrenheit(temperature)}#{Symbols.degree}F"
+          "#{Utils.to_fahrenheit(temperature).round(2)}#{Symbols.degree}F"
         end
       end
     end
