@@ -1,5 +1,21 @@
 # Extensions (C libs)
-require 'osx_stats'
+require 'rbconfig'
+include RbConfig
+
+case CONFIG['host_os']
+  when /mswin|windows/i
+    # Windows
+  when /linux|arch/i
+  require 'iStats/linux_stats' 
+	 # Linux
+  when /sunos|solaris/i
+    # Solaris
+  when /darwin/i
+    require 'osx_stats'
+    #MAC OS X
+  else
+    # whatever
+end
 
 # Gems
 require 'optparse'

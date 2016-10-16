@@ -21,7 +21,9 @@ spec = Gem::Specification.new do |s|
   s.require_paths = ["lib", "ext"]
 
   s.platform = Gem::Platform::RUBY
+  if s.platform =~ /darwin/
   s.extensions = FileList["ext/**/extconf.rb"]
+  end 
 
   s.required_ruby_version = ">= 1.9.3"
 
