@@ -26,6 +26,7 @@ module IStats
       #
       def setup(options)
         Printer.disable_graphs unless options[:display_graphs]
+        Printer.set_temperature_scale options[:temperature_scale]
       end
 
       # Delegate command to proper class
@@ -83,7 +84,7 @@ module IStats
       #
       # returns nothing
       def parse_options
-        options = {:display_graphs => true}
+        options = {:display_graphs => true, :temperature_scale => 'celcius'}
 
         opt_parser = OptionParser.new do |opts|
           opts.on('-v', '--version', 'Print Version') do
@@ -98,6 +99,10 @@ module IStats
 
           opts.on('--no-graphs', 'Don\'t display graphs') do
             options[:display_graphs] = false
+          end
+
+          opts.on('-f', '--fahrenheit', 'Display temperatures in fahrenheit') do
+            options[:temperature_scale] = 'fahrenheit'
           end
         end
 
@@ -146,6 +151,7 @@ module IStats
 
           # Arguments
           --no-graphs                          Don't display sparklines graphs
+          -f, --fahrenheit                     Display temperatures in fahrenheit
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line

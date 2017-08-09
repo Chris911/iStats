@@ -1,12 +1,17 @@
 module IStats
   class Printer
     @display_graphs = true
+    @temperature_scale = 'celcius'
 
     class << self
       include IStats::Color
 
       def disable_graphs
         @display_graphs = false
+      end
+
+      def set_temperature_scale(scale)
+        @temperature_scale = scale
       end
 
       # Create colored sparkline
@@ -35,6 +40,18 @@ module IStats
           else
             tick
           end
+        end
+      end
+
+      # Pretty print temperature values.
+      # Also converts the value to the class temperature_scale.
+      #
+      # Returns the temperature string.
+      def format_temperature(temperature)
+        if @temperature_scale == 'celcius'
+          "#{temperature.round(2)}#{Symbols.degree}C"
+        else
+          "#{Utils.to_fahrenheit(temperature).round(2)}#{Symbols.degree}F"
         end
       end
     end

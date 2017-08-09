@@ -19,7 +19,6 @@
 
 #ifndef __SMC_H__
 #define __SMC_H__
-#endif
 
 #define VERSION               "0.01"
 
@@ -113,3 +112,5 @@ VALUE method_get_battery_design_cycle_count(VALUE self);
 VALUE method_get_battery_temp(VALUE self);
 VALUE method_get_battery_time_remaining(VALUE self);
 VALUE method_get_battery_charge(VALUE self);
+
+#endif // __SMC_H__
