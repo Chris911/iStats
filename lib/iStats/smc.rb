@@ -11,6 +11,8 @@ module IStats
         case stat
         when 'all'
           all
+        when 'zabbix'
+          zabbix_discover
         else
           scan_supported_key(stat)
         end
@@ -121,6 +123,27 @@ module IStats
         puts "\nDone scanning keys.\n"
         puts "All keys are disabled by default. Use `istats enable [key]` to enable specific keys or `istats enable all`."
         puts "The enabled sensors will show up when running `istats` or `istats extra`."
+      end
+
+      def zabbix_discover
+        puts '{ "data": ['
+
+        characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
+        characters.each {|l1|
+          characters.each {|l2|
+            characters.each {|l3|
+              key = "T#{l1}#{l2}#{l3}"
+              if (name(key) != 'Unknown')
+                t = is_key_supported(key);
+                if (t > 0) 
+                  puts '  { "{#KEY}": "' + key + '", "{#NAME}": "' + name(key) + '" },'
+                end
+              end
+            }
+          }
+        }
+        puts '] }'
+
       end
 
       def scan_supported_key(key)
