@@ -35,6 +35,8 @@ module IStats
 
         return if thresholds.count < 4
 
+		value = value.to_f
+
         list = [0, 30, 55, 80, 100, 130]
         sparkline = "\t" + Sparkr.sparkline(list) do |tick, count, index|
           if index.between?(0, 5) and value > thresholds[3]
