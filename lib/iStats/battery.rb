@@ -61,7 +61,7 @@ module IStats
           ]
 
           Printer.print_item_line("Cycle count", cycle_count, "", thresholds, "#{percentage.round(1)}%")
-          Printer.print_item_line("Max cycle count", max_cycle_count)
+          Printer.print_item_line("Max cycles", max_cycle_count)
         end
       end
 
@@ -103,9 +103,9 @@ module IStats
         ]
         charge = get_battery_charge
         result = charge ? "#{charge}%" : "Unknown"
-        Printer.print_item_line("Current charge", cur_capacity, "mAh", thresholds, charge)
-        Printer.print_item_line("Maximum charge", cur_max_capacity, "mAh")
-        Printer.print_item_line("Design capacity", ori_max_capacity, "mAh")
+        Printer.print_item_line("Current charge", cur_capacity, "mAh", [], "#{charge}%")
+        Printer.print_item_line("Maximum charge", cur_max_capacity, "mAh", [], "#{percentage.round(1)}%")
+        Printer.print_item_line("Design max", ori_max_capacity, "mAh")
       end
 
       # Get the battery temperature
