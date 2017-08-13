@@ -10,6 +10,11 @@ module IStats
         @display_graphs = false
       end
 
+      def enable_bare
+        @display_bare = true
+        @display_graphs = false
+      end
+
       def set_temperature_scale(scale)
         @temperature_scale = scale
       end
@@ -49,9 +54,16 @@ module IStats
       # Returns the temperature string.
       def format_temperature(temperature)
         if @temperature_scale == 'celcius'
-          "#{temperature.round(2)}#{Symbols.degree}C"
+		  value = temperature
+          symbol = "C"
+		else
+		  value = Utils.to_fahrenheit(temperature)
+          symbol = "F"
+		end
+        if @display_bare
+          "#{value.round(2)}"
         else
-          "#{Utils.to_fahrenheit(temperature).round(2)}#{Symbols.degree}F"
+          "#{value.round(2)}#{Symbols.degree}#{symbol}"
         end
       end
     end
