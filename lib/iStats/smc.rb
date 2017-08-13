@@ -112,7 +112,7 @@ module IStats
 
                 Settings.addSensor(key, sensors)
 
-                puts "#{key} #{sensors['name']}  #{Printer.format_temperature(t)}  #{Printer.gen_sparkline(t, sensors['thresholds'])}"
+				puts "#{Printer.format_label("#{key} #{sensors['name']}")}#{Printer.format_temperature(t)}#{Printer.gen_sparkline(t, sensors['thresholds'])}"
               end
             }
           }
@@ -124,7 +124,7 @@ module IStats
 
       def scan_supported_key(key)
         t = is_key_supported(key)
-        puts "#{Printer.format_label(" Scanned #{key} result = ")}#{t}";
+        puts "#{Printer.format_label("Scanned #{key} result = ")}#{t}";
       end
     end
   end

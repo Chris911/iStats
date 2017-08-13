@@ -51,9 +51,12 @@ module IStats
         t = SMC.is_key_supported(key).round(2);
         thresholds = sensor['thresholds'][1..-2].split(/, /).map { |s| s.to_i }
         if (display)
-          puts "#{key} #{Printer.format_temperature(t)} \t#{Printer.gen_sparkline(t, thresholds)} #{sensor['name']}"
+          puts "#{Printer.format_label("#{key}")}" +
+               "#{Printer.format_temperature(t)}#{Printer.gen_sparkline(t, thresholds)}" +
+               "#{Printer.format_label(" #{sensor['name']}")}"
         else
-          puts "#{key} #{sensor['name']} temp: #{Printer.format_temperature(t)}  #{Printer.gen_sparkline(t, thresholds)}"
+          puts "#{Printer.format_label("#{key} #{sensor['name']} temp:")}" +
+               "#{Printer.format_temperature(t)}#{Printer.gen_sparkline(t, thresholds)}"
         end
       end
     end

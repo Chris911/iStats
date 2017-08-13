@@ -36,7 +36,7 @@ module IStats
         return if thresholds.count < 4
 
         list = [0, 30, 55, 80, 100, 130]
-        sparkline = " "+Sparkr.sparkline(list) do |tick, count, index|
+        sparkline = "\t" + Sparkr.sparkline(list) do |tick, count, index|
           if index.between?(0, 5) and value > thresholds[3]
             flash_red(tick)
           elsif index.between?(0, 1)
@@ -55,7 +55,7 @@ module IStats
 
       def format_label(label)
         if @display_labels == true
-          "#{label} "
+          "#{label}\t"
         end
       end
 

@@ -49,13 +49,15 @@ module IStats
         @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
         cycle_count = @ioreg_out[/"CycleCount" = ([0-9]*)/, 1]
         if cycle_count == nil
-          puts "Cycle count: unknown"
+			puts "#{Printer.format_label("Cycle count:")}unknown"
         else
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
           thresholds = [45, 65, 85, 95]
-          puts "Cycle count: #{cycle_count}  " + Printer.gen_sparkline(percentage, thresholds) + "  #{percentage.round(1)}%"
-          puts "Max cycle count: #{max_cycle_count}"
+		  puts "#{Printer.format_label("Cycle count:")}" +
+			   "#{cycle_count}#{Printer.gen_sparkline(percentage, thresholds)}" +
+			   "#{percentage.round(1)}%"
+		  puts "#{Printer.format_label("Max cycle count:")}#{max_cycle_count}"
         end
       end
 
