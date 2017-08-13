@@ -113,7 +113,7 @@ module IStats
                 Settings.addSensor(key, sensors)
                 value, scale = Printer.parse_temperature(t)
 
-                Printer.print_item_line("#{key} #{sensors['name']}", value, scale, thresholds)
+                Printer.print_item_line("#{key} #{sensors['name']}", value, scale, sensors['thresholds'])
               end
             }
           }
