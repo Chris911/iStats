@@ -126,24 +126,23 @@ module IStats
       end
 
       def zabbix_discover
-        puts '{ "data": ['
+        items = []
 
         characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
         characters.each {|l1|
           characters.each {|l2|
             characters.each {|l3|
               key = "T#{l1}#{l2}#{l3}"
-              if (name(key) != 'Unknown')
+              if (name(key) != 'Unknown') && (name(key) != '')
                 t = is_key_supported(key);
                 if (t > 0) 
-                  puts '  { "{#KEY}": "' + key + '", "{#NAME}": "' + name(key) + '" },'
+                    items.push('{"{#KEY}":"' + key + '","{#NAME}":"' + name(key) + '" }')
                 end
               end
             }
           }
         }
-        puts '] }'
-
+        puts '{"data":[' + items.join(",") + ']}'
       end
 
       def scan_supported_key(key)
