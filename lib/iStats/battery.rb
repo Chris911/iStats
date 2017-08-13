@@ -53,7 +53,12 @@ module IStats
         else
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
-          thresholds = [45, 65, 85, 95]
+          thresholds = [
+              0.45 * max_cycle_count,
+              0.65 * max_cycle_count,
+              0.85 * max_cycle_count,
+              0.95 * max_cycle_count
+          ]
 
           Printer.print_item_line("Cycle count", cycle_count, "", thresholds, "#{percentage.round(1)}%")
           Printer.print_item_line("Max cycle count", max_cycle_count)
@@ -88,8 +93,14 @@ module IStats
       # Print battery capacity info
       #
       def print_capacity_info
-        percentage = (cur_max_capacity.to_f/ori_max_capacity.to_f)*100
-        thresholds = [45, 65, 85, 95]
+        max = ori_max_capacity.to_f
+        percentage = (cur_max_capacity.to_f/max)*100
+        thresholds = [
+          0.45 * max,
+          0.65 * max,
+          0.85 * max,
+          0.95 * max
+        ]
         charge = get_battery_charge
         result = charge ? "#{charge}%" : "Unknown"
         Printer.print_item_line("Current charge", cur_capacity, "mAh", thresholds, charge)
