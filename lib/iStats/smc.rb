@@ -124,7 +124,7 @@ module IStats
 
       def scan_supported_key(key)
         t = is_key_supported(key)
-        puts " Scanned #{key} result = #{t}";
+        puts "#{Printer.format_label(" Scanned #{key} result = ")}#{t}";
       end
     end
   end
