@@ -90,21 +90,39 @@ module IStats
         grep_ioreg("CurrentCapacity")
       end
 
+      # Produce a thresholds array containing absolute values based on supplied
+      # percentages.  Set values to negative if reversed is true (this
+      # is used by gen_sparkline to color the graph depending on if 100% is
+      # good or bad
+      #
+      def abs_thresholds(scale, max_value, reversed = false)
+        at = []
+        scale.each { |v|
+          val = v * max_value
+          if reversed
+            val = 0 - val
+          end
+          at.push(val)
+        }
+        return at
+      end
+
       # Print battery capacity info
       #
       def print_capacity_info
-        max = ori_max_capacity.to_f
-        percentage = (cur_max_capacity.to_f/max)*100
-        thresholds = [
-          0.45 * max,
-          0.65 * max,
-          0.85 * max,
-          0.95 * max
-        ]
+        cur_max = cur_max_capacity.to_f
+        ori_max = ori_max_capacity.to_f
+
+        percentage = (cur_max / ori_max)*100
+
+        per_thresholds = [0.45, 0.65, 0.85, 0.95]
+        cur_thresholds = abs_thresholds(per_thresholds, cur_max, true)
+        ori_thresholds = abs_thresholds(per_thresholds, ori_max, true)
+
         charge = get_battery_charge
         result = charge ? "#{charge}%" : "Unknown"
-        Printer.print_item_line("Current charge", cur_capacity, "mAh", [], "#{charge}%")
-        Printer.print_item_line("Maximum charge", cur_max_capacity, "mAh", [], "#{percentage.round(1)}%")
+        Printer.print_item_line("Current charge", cur_capacity, "mAh", cur_thresholds, "#{charge}%")
+        Printer.print_item_line("Maximum charge", cur_max_capacity, "mAh", ori_thresholds, "#{percentage.round(1)}%")
         Printer.print_item_line("Design max", ori_max_capacity, "mAh")
       end
 

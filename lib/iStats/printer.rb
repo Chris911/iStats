@@ -29,28 +29,72 @@ module IStats
       # thresholds - must be an array of size 4 containing the threshold values
       #              for the sparkline colors
       #
+      # If the values in the thresholds array are negative, treat 100& as 
+      # good (green) instead of bad (red)
+      #
       def gen_sparkline(value, thresholds)
         # Graphs can be disabled globally
         return '' unless @display_graphs
 
         return if thresholds.count < 4
 
-		value = value.to_f
+        value = value.to_f
+        if thresholds[0] < 0
+          reverse = true
+        else
+          reverse = false
+        end
 
         list = [0, 30, 55, 80, 100, 130]
         sparkline = "\t" + Sparkr.sparkline(list) do |tick, count, index|
-          if index.between?(0, 5) and value > thresholds[3]
-            flash_red(tick)
-          elsif index.between?(0, 1)
-            green(tick)
-          elsif index.between?(2, 3) and value > thresholds[0]
-            light_yellow(tick)
-          elsif index == 4 and value > thresholds[1]
-            yellow(tick)
-          elsif index == 5 and value > thresholds[2]
-            red(tick)
+          if reverse == false
+            #
+            # Normal sparkline where 100% is bad
+            #
+            if index.between?(0, 5) and value > thresholds[3]
+              flash_red(tick)
+            elsif index.between?(0, 1)
+              green(tick)
+            elsif index.between?(2, 3) and value > thresholds[0]
+              light_yellow(tick)
+            elsif index == 4 and value > thresholds[1]
+              yellow(tick)
+            elsif index == 5 and value > thresholds[2]
+              red(tick)
+            else
+              tick
+            end
           else
-            tick
+            #
+            # Reversed sparkline where 100% is good
+            #
+            if value < thresholds[0].abs
+              if index == 1
+                red(tick)
+              else
+                tick
+              end
+            elsif value < thresholds[1].abs
+              if index.between?(0, 2)
+                yellow(tick)
+              else
+                tick
+              end
+            elsif value < thresholds[2].abs
+              if index.between?(0, 3)
+                light_yellow(tick)
+              else
+                tick
+              end
+            elsif value < thresholds[3].abs 
+              if index.between?(0, 4)
+                green(tick)
+              else
+                tick
+              end
+            else
+              green(tick)
+            end
           end
         end
       end
