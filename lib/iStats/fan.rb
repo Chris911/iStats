@@ -38,7 +38,7 @@ module IStats
       # Print number of fan(s)
       #
       def print_fan_number
-        puts "#{Printer.format_label("Total fans in system:")}#{fan_number}"
+        Printer.print_item_line("Total fans in system", fan_number)
       end
 
       # Get and print the speed of each fan
@@ -58,10 +58,7 @@ module IStats
       #
       def print_fan_speed(fanNum, speed)
         thresholds = [2500, 3500, 4500, 5500]
-        puts "#{Printer.format_label("Fan #{fanNum} speed:")}" +
-          "#{speed}" +
-          "#{Printer.format_scale(" RPM")}" +
-          "#{Printer.gen_sparkline(speed, thresholds)}"
+        Printer.print_item_line("Fan #{fanNum} speed", speed, " RPM", thresholds)
       end
     end
   end

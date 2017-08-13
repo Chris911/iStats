@@ -111,8 +111,9 @@ module IStats
                 sensors['enabled'] = 0
 
                 Settings.addSensor(key, sensors)
+                value, scale = Printer.parse_temperature(t)
 
-				puts "#{Printer.format_label("#{key} #{sensors['name']}")}#{Printer.format_temperature(t)}#{Printer.gen_sparkline(t, sensors['thresholds'])}"
+                Printer.print_item_line("#{key} #{sensors['name']}", value, scale, thresholds)
               end
             }
           }

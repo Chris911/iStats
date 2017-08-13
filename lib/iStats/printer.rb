@@ -69,17 +69,45 @@ module IStats
       # Also converts the value to the class temperature_scale.
       #
       # Returns the temperature string.
-      def format_temperature(temperature)
+      def parse_temperature(temperature)
         if @temperature_scale == 'celcius'
-		  value = temperature
+          value = temperature
           symbol = "C"
-		else
-		  value = Utils.to_fahrenheit(temperature)
+        else
+          value = Utils.to_fahrenheit(temperature)
           symbol = "F"
-		end
+        end
 
-        "#{value.round(2)}#{Printer.format_scale("#{Symbols.degree}#{symbol}")}"
+        return value.round(2), "#{Symbols.degree}#{symbol}"
       end
+
+      def format_temperature(temperature)
+          value, scale = Printer.format_temperature(temperature)
+          "#{value}#{scale}"
+      end
+
+      def print_item_line(label, value, scale="", thresholds=[], suffix="")
+        if @display_labels
+          print "#{label}:\t"
+        end
+
+        print value
+
+        if @display_scale
+          print scale
+        end
+
+        if @display_graphs
+          print "\t#{Printer.gen_sparkline(value, thresholds)}"
+        end
+
+        if @display_labels
+          print "\t#{suffix}"
+        end
+
+        printf "\n"
+      end
+
     end
   end
 end
