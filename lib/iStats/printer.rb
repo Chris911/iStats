@@ -5,6 +5,10 @@ module IStats
     @display_scale = true
     @temperature_scale = 'celcius'
 
+    LABEL_WIDTH = 24
+    VALUE_WIDTH = 8
+    SCALE_WIDTH = 4
+
     class << self
       include IStats::Color
 
@@ -41,7 +45,7 @@ module IStats
         value = value.to_f
 
         list = [0, 30, 55, 80, 100, 130]
-        sparkline = "\t" + Sparkr.sparkline(list) do |tick, count, index|
+        sparkline = Sparkr.sparkline(list) do |tick, count, index|
           if thresholds[3] > thresholds[0]
             #
             # Normal sparkline where 100% is bad
@@ -106,10 +110,9 @@ module IStats
         end
       end
 
-      # Pretty print temperature values.
-      # Also converts the value to the class temperature_scale.
+      # Converts the value to the class temperature_scale with 
+      # accompanying scale string.
       #
-      # Returns the temperature string.
       def parse_temperature(temperature)
         if @temperature_scale == 'celcius'
           value = temperature
@@ -122,28 +125,41 @@ module IStats
         return value.round(2), "#{Symbols.degree}#{symbol}"
       end
 
+      # Pretty print temperature values.
+      # Returns the formatted temperature string.
+      #
       def format_temperature(temperature)
           value, scale = Printer.format_temperature(temperature)
           "#{value}#{scale}"
       end
 
+      # Prints a standard item line with label, value, scale, and sparkline
+      # as determined by the runtime command-line arguments supplied by the
+      # user.
+      #
       def print_item_line(label, value, scale="", thresholds=[], suffix="")
-        if @display_labels
-          print "#{label}:\t"
-        end
-
-        print value
 
         if @display_scale
-          print scale
-        end
-
-        if @display_graphs
-          print "\t#{Printer.gen_sparkline(value, thresholds)}"
+          full_value_width = VALUE_WIDTH + SCALE_WIDTH
+          full_value = value.to_s + scale.to_s
+        else
+          full_value_width = VALUE_WIDTH
+          full_value = value
         end
 
         if @display_labels
-          print "\t#{suffix}"
+          format = "%-"+LABEL_WIDTH.to_s + "s"
+          printf("%-" + LABEL_WIDTH.to_s + "s", label + ":")
+        end
+
+        printf("%-" + full_value_width.to_s + "s", full_value)
+
+        if @display_graphs
+          print "#{Printer.gen_sparkline(value, thresholds)} "
+        end
+
+        if @display_labels
+          print "#{suffix}"
         end
 
         printf "\n"
