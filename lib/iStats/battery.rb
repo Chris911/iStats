@@ -90,19 +90,6 @@ module IStats
         grep_ioreg("CurrentCapacity")
       end
 
-      # Produce a thresholds array containing absolute values based on supplied
-      # percentages.  Set values to negative if reversed is true (this
-      # is used by gen_sparkline to color the graph depending on if 100% is
-      # good or bad
-      #
-      def abs_thresholds(scale, max_value)
-        at = []
-        scale.each { |v|
-          at.push(v * max_value)
-        }
-        return at
-      end
-
       # Print battery capacity info
       #
       def print_capacity_info
@@ -112,8 +99,8 @@ module IStats
         percentage = (cur_max / ori_max)*100
 
         per_thresholds = [0.95, 0.85, 0.65, 0.45]
-        cur_thresholds = abs_thresholds(per_thresholds, cur_max)
-        ori_thresholds = abs_thresholds(per_thresholds, ori_max)
+        cur_thresholds = Utils.abs_thresholds(per_thresholds, cur_max)
+        ori_thresholds = Utils.abs_thresholds(per_thresholds, ori_max)
 
         charge = get_battery_charge
         result = charge ? "#{charge}%" : "Unknown"

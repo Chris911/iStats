@@ -88,8 +88,8 @@ module IStats
           :display_graphs => true,
           :display_labels => true,
           :display_scale => true,
-		  :temperature_scale => 'celcius',
-	    }
+          :temperature_scale => 'celcius',
+        }
 
         opt_parser = OptionParser.new do |opts|
           opts.on('-v', '--version', 'Print Version') do
@@ -164,7 +164,7 @@ module IStats
 
           istats scan                          Scans and print temperatures
           istats scan [key]                    Print single SMC temperature key
-		  istats scan [zabbix]                 JSON output for Zabbix discovery
+          istats scan [zabbix]                 JSON output for Zabbix discovery
           istats enable [key | all]            Enables key
           istats disable [key | all]           Disable key
           istats list                          List available keys
