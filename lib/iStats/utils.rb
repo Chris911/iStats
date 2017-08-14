@@ -10,9 +10,7 @@ module IStats
     end
 
     # Produce a thresholds array containing absolute values based on supplied
-    # percentages.  Set values to negative if reversed is true (this
-    # is used by gen_sparkline to color the graph depending on if 100% is
-    # good or bad
+    # percentages applied to a literal max value.
     #
     def abs_thresholds(scale, max_value)
       at = []
