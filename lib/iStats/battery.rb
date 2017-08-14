@@ -95,14 +95,10 @@ module IStats
       # is used by gen_sparkline to color the graph depending on if 100% is
       # good or bad
       #
-      def abs_thresholds(scale, max_value, reversed = false)
+      def abs_thresholds(scale, max_value)
         at = []
         scale.each { |v|
-          val = v * max_value
-          if reversed
-            val = 0 - val
-          end
-          at.push(val)
+          at.push(v * max_value)
         }
         return at
       end
@@ -115,9 +111,9 @@ module IStats
 
         percentage = (cur_max / ori_max)*100
 
-        per_thresholds = [0.45, 0.65, 0.85, 0.95]
-        cur_thresholds = abs_thresholds(per_thresholds, cur_max, true)
-        ori_thresholds = abs_thresholds(per_thresholds, ori_max, true)
+        per_thresholds = [0.95, 0.85, 0.65, 0.45]
+        cur_thresholds = abs_thresholds(per_thresholds, cur_max)
+        ori_thresholds = abs_thresholds(per_thresholds, ori_max)
 
         charge = get_battery_charge
         result = charge ? "#{charge}%" : "Unknown"
