@@ -49,13 +49,14 @@ module IStats
         @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
         cycle_count = @ioreg_out[/"CycleCount" = ([0-9]*)/, 1]
         if cycle_count == nil
-          puts "Cycle count: unknown"
+          Printer.print_item_line("Cycle count", "unknown")
         else
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
-          thresholds = [45, 65, 85, 95]
-          puts "Cycle count: #{cycle_count}  " + Printer.gen_sparkline(percentage, thresholds) + "  #{percentage.round(1)}%"
-          puts "Max cycle count: #{max_cycle_count}"
+          thresholds = Utils.abs_thresholds([0.45, 0.65, 0.85, 0.95], max_cycle_count)
+
+          Printer.print_item_line("Cycle count", cycle_count, "", thresholds, "#{percentage.round(1)}%")
+          Printer.print_item_line("Max cycles", max_cycle_count)
         end
       end
 
@@ -87,26 +88,34 @@ module IStats
       # Print battery capacity info
       #
       def print_capacity_info
-        percentage = (cur_max_capacity.to_f/ori_max_capacity.to_f)*100
-        thresholds = [45, 65, 85, 95]
+        cur_max = cur_max_capacity.to_f
+        ori_max = ori_max_capacity.to_f
+
+        percentage = (cur_max / ori_max)*100
+
+        per_thresholds = [0.95, 0.85, 0.65, 0.45]
+        cur_thresholds = Utils.abs_thresholds(per_thresholds, cur_max)
+        ori_thresholds = Utils.abs_thresholds(per_thresholds, ori_max)
+
         charge = get_battery_charge
-        charge = charge ? "  #{charge}%" : ""
-        puts "Current charge:  #{cur_capacity} mAh#{charge}"
-        puts "Maximum charge:  #{cur_max_capacity} mAh " + Printer.gen_sparkline(100-percentage, thresholds) + "  #{percentage.round(1)}%"
-        puts "Design capacity: #{ori_max_capacity} mAh"
+        result = charge ? "#{charge}%" : "Unknown"
+        Printer.print_item_line("Current charge", cur_capacity, " mAh", cur_thresholds, "#{result}")
+        Printer.print_item_line("Maximum charge", cur_max_capacity, " mAh", ori_thresholds, "#{percentage.round(1)}%")
+        Printer.print_item_line("Design capacity", ori_max_capacity, " mAh")
       end
 
       # Get the battery temperature
       #
       def battery_temperature
-        puts "Battery temp: #{Printer.format_temperature(get_battery_temp)}  "
+        value, scale = Printer.parse_temperature(get_battery_temp)
+        Printer.print_item_line("Battery temp", value, scale)
       end
 
       # Get the battery health
       # Calls a C method from BATTERY_STATS module
       #
       def battery_health
-        puts "Battery health: #{get_battery_health}"
+        Printer.print_item_line("Battery health", get_battery_health)
       end
 
       def battery_time_remaining
@@ -119,13 +128,13 @@ module IStats
           time = "%i:%02i" % [hours, minutes]
         end
 
-        puts "Battery time remaining: #{time}"
+        Printer.print_item_line("Battery time remaining", time)
       end
 
       def battery_charge
         charge = get_battery_charge
-        result = charge ? "#{charge}%" : "Unknown"
-        puts "Battery charge: #{result}"
+        result = charge ? charge : "Unknown"
+        Printer.print_item_line("Battery charge", result, "%")
       end
 
       # Get the battery design cycle count

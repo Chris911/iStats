@@ -1,0 +1,13 @@
+Create new channel at thingspeak.com
+
+Example channel https://thingspeak.com/channels/170298
+      
+istats thingspeak write-api-key=XXXXXXX
+istats thingspeak read-api-key=YYYYYYY
+istats thingspeak channel1=TC0D
+...
+...
+
+cp istats.plist ~/Library/LaunchAgents/istats.plist
+launchctl load ~/Library/LaunchAgents/istats.plist
+

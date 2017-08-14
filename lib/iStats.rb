@@ -17,6 +17,7 @@ require 'iStats/battery'
 require 'iStats/extra'
 require 'iStats/smc'
 require 'iStats/settings'
+require 'iStats/thingspeak'
 require 'iStats/utils'
 
 module IStats
