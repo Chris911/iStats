@@ -53,12 +53,7 @@ module IStats
         else
           max_cycle_count = design_cycle_count
           percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
-          thresholds = [
-              0.45 * max_cycle_count,
-              0.65 * max_cycle_count,
-              0.85 * max_cycle_count,
-              0.95 * max_cycle_count
-          ]
+		  thresholds = Utils.abs_thresholds([0.45, 0.65, 0.85, 0.95], max_cycle_count)
 
           Printer.print_item_line("Cycle count", cycle_count, "", thresholds, "#{percentage.round(1)}%")
           Printer.print_item_line("Max cycles", max_cycle_count)
