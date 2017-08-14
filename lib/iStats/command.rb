@@ -151,21 +151,22 @@ module IStats
           # Commands
           istats all                           Print all stats
           istats cpu                           Print all CPU stats
-          istats cpu <temp | temperature>      Print CPU temperature
+          istats cpu [temp | temperature]      Print CPU temperature
           istats fan                           Print all fan stats
-          istats fan <speed>                   Print fan speed
+          istats fan [speed]                   Print fan speed
           istats battery                       Print all battery stats
-          istats battery <health>              Print battery health
-          istats battery <time | remain>       Print battery time remaining
-          istats battery <cycle_count | cc>    Print battery cycle count info
-          istats battery <temp | temperature>  Print battery temperature
-          istats battery <charge>              Print battery charge
-          istats battery <capacity>            Print battery capacity info
+          istats battery [health>              Print battery health
+          istats battery [time | remain]       Print battery time remaining
+          istats battery [cycle_count | cc]    Print battery cycle count info
+          istats battery [temp | temperature]  Print battery temperature
+          istats battery [charge]              Print battery charge
+          istats battery [capacity]            Print battery capacity info
 
           istats scan                          Scans and print temperatures
-          istats scan <key>                    Print single SMC temperature key
-          istats enable <key | all>            Enables key
-          istats disable <key | all>           Disable key
+          istats scan [key]                    Print single SMC temperature key
+		  istats scan [zabbix]                 JSON output for Zabbix discovery
+          istats enable [key | all]            Enables key
+          istats disable [key | all]           Disable key
           istats list                          List available keys
 
           # Arguments

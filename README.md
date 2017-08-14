@@ -42,12 +42,16 @@ If you are running an older version of OS X and the install fails you might want
 
   istats scan                          Scans and print temperatures
   istats scan [key]                    Print single SMC temperature key
+  istats scan [zabbix]                 JSON output for Zabbix discovery
   istats enable [key | all]            Enables key
   istats disable [key | all]           Disable key
   istats list                          List available keys
 
   # Arguments
   --no-graphs                          Don't display sparklines graphs
+  --no-labels                          Don't display item names/labels
+  --no-scale                           Display just the stat value
+  --value-only                         No graph, label, or scale
   -f, --fahrenheit                     Display temperatures in fahrenheit
 
   for more help see: https://github.com/Chris911/iStats
@@ -82,3 +86,13 @@ Ruby: 1.9.3, 2.0.0, 2.1.1
 MacBook Pro 2014    
 OS X: 10.10.3, 10.10.4    
 Ruby: 2.1.3    
+
+Mac Pro 2013
+OS X: 10.12.6
+Ruby: 2.0.0
+
+#### Zabbix Integration
+
+iStats has a "scan zabbix" mode which will emit JSON suitable for use with
+[Zabbix](https://zabbix.com/) low-level discovery.  See the accompanying
+template and agent config in the `integrations` directory.
