@@ -106,7 +106,7 @@ module IStats
         result = charge ? "#{charge}%" : "Unknown"
         Printer.print_item_line("Current charge", cur_capacity, " mAh", cur_thresholds, "#{charge}%")
         Printer.print_item_line("Maximum charge", cur_max_capacity, " mAh", ori_thresholds, "#{percentage.round(1)}%")
-        Printer.print_item_line("Design max", ori_max_capacity, " mAh")
+        Printer.print_item_line("Design capacity", ori_max_capacity, " mAh")
       end
 
       # Get the battery temperature
