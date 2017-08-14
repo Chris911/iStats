@@ -155,11 +155,11 @@ module IStats
         printf("%-" + full_value_width.to_s + "s", full_value)
 
         if @display_graphs
-          print "#{Printer.gen_sparkline(value, thresholds)} "
+          print "#{Printer.gen_sparkline(value, thresholds)}"
         end
 
-        if @display_labels
-          print "#{suffix}"
+        if @display_labels && suffix != ""
+          print "  #{suffix}"
         end
 
         printf "\n"
