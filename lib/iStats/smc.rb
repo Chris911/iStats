@@ -11,6 +11,8 @@ module IStats
         case stat
         when 'all'
           all
+        when 'zabbix'
+          zabbix_discover
         else
           scan_supported_key(stat)
         end
@@ -111,8 +113,9 @@ module IStats
                 sensors['enabled'] = 0
 
                 Settings.addSensor(key, sensors)
+                value, scale = Printer.parse_temperature(t)
 
-                puts "#{key} #{sensors['name']}  #{Printer.format_temperature(t)}  #{Printer.gen_sparkline(t, sensors['thresholds'])}"
+                Printer.print_item_line("#{key} #{sensors['name']}", value, scale, sensors['thresholds'])
               end
             }
           }
@@ -122,9 +125,29 @@ module IStats
         puts "The enabled sensors will show up when running `istats` or `istats extra`."
       end
 
+      def zabbix_discover
+        items = []
+
+        characters = [('a'..'z'), ('A'..'Z'),(0..9)].map { |i| i.to_a }.flatten
+        characters.each {|l1|
+          characters.each {|l2|
+            characters.each {|l3|
+              key = "T#{l1}#{l2}#{l3}"
+              if (name(key) != 'Unknown') && (name(key) != '')
+                t = is_key_supported(key);
+                if (t > 0) 
+                    items.push('{"{#KEY}":"' + key + '","{#NAME}":"' + name(key) + '" }')
+                end
+              end
+            }
+          }
+        }
+        puts '{"data":[' + items.join(",") + ']}'
+      end
+
       def scan_supported_key(key)
         t = is_key_supported(key)
-        puts " Scanned #{key} result = #{t}";
+        puts "#{Printer.format_label("Scanned #{key} result = ")}#{t}";
       end
 
       def get_supported_key(key)
