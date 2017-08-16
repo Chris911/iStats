@@ -3,6 +3,7 @@
 #
 module IStats
   class SMC
+    require 'json'
     extend SMC_INFO
     class << self
       # Delegate CLI command to function
@@ -136,13 +137,16 @@ module IStats
               if (name(key) != 'Unknown') && (name(key) != '')
                 t = is_key_supported(key);
                 if (t > 0) 
-                    items.push('{"{#KEY}":"' + key + '","{#NAME}":"' + name(key) + '" }')
+                  item = {'#KEY' => key, '#NAME' => name(key)}
+                  items.push(item)
                 end
               end
             }
           }
         }
-        puts '{"data":[' + items.join(",") + ']}'
+
+        data = {:data => items}
+        puts JSON.generate(data)
       end
 
       def scan_supported_key(key)
