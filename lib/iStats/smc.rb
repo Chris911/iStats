@@ -137,7 +137,7 @@ module IStats
               if (name(key) != 'Unknown') && (name(key) != '')
                 t = is_key_supported(key);
                 if (t > 0) 
-                  item = {'#KEY' => key, '#NAME' => name(key)}
+                  item = {'{#KEY}' => key, '{#NAME}' => name(key)}
                   items.push(item)
                 end
               end
