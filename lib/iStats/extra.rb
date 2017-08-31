@@ -49,11 +49,17 @@ module IStats
       # Pretty print sensor temperature
       def display_temp(key, sensor, display)
         t = SMC.is_key_supported(key).round(2);
+        value, scale = Printer.parse_temperature(t)
+
         thresholds = sensor['thresholds'][1..-2].split(/, /).map { |s| s.to_i }
+
         if (display)
-          puts "#{key} #{Printer.format_temperature(t)} \t#{Printer.gen_sparkline(t, thresholds)} #{sensor['name']}"
+          # Invoked if settings has an AltDisplay?
+          puts "#{Printer.format_label("#{key}")}" +
+               "#{Printer.format_temperature(t)}#{Printer.gen_sparkline(t, thresholds)}" +
+               "#{Printer.format_label(" #{sensor['name']}")}"
         else
-          puts "#{key} #{sensor['name']} temp: #{Printer.format_temperature(t)}  #{Printer.gen_sparkline(t, thresholds)}"
+          Printer.print_item_line("#{key} #{sensor['name']} temp", value, scale, thresholds)
         end
       end
     end
