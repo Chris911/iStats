@@ -47,6 +47,7 @@ module IStats
         fanNum = fan_number
         (0..(fanNum-1)).each do |n|
           s = get_fan_speed(n)
+          s = s.round unless s.nil?
           print_fan_speed(n, s)
         end
       end
