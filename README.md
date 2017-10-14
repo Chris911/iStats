@@ -75,21 +75,25 @@ iStats now supports extra sensors for advanced users. Here's how to enable that 
 
 #### Tested on
 
-MacBook Pro 2011
-OS X: 10.11.6
-Ruby: 2.0.0
+MacBook Pro 2009    
+OS X: 10.11.6    
+Ruby: 2.4.1    
+
+MacBook Pro 2011    
+OS X: 10.11.6    
+Ruby: 2.0.0    
 
 MacBook Pro 2012    
 OS X: 10.9.3    
 Ruby: 1.9.3, 2.0.0, 2.1.1    
 
+MacBook Pro 2013    
+OS X: 10.12.6    
+Ruby: 2.0.0    
+
 MacBook Pro 2014    
 OS X: 10.10.3, 10.10.4    
 Ruby: 2.1.3    
-
-Mac Pro 2013
-OS X: 10.12.6
-Ruby: 2.0.0
 
 #### Zabbix Integration
 
