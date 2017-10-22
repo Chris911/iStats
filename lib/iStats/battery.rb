@@ -43,6 +43,49 @@ module IStats
         battery_temperature
       end
 
+      # Expose values to Ruby
+      def get_battery_health_info
+        @ioreg_out ||= %x( ioreg -rn AppleSmartBattery )
+        cycle_count = @ioreg_out[/"CycleCount" = ([0-9]*)/, 1]
+        if cycle_count == nil
+          return nil
+        else
+          max_cycle_count = design_cycle_count
+          percentage = (cycle_count.to_f/max_cycle_count.to_f)*100
+          thresholds = Utils.abs_thresholds([0.45, 0.65, 0.85, 0.95], max_cycle_count)
+          stats = {
+            battery_health: get_battery_health,
+            max_design_cycle_count: max_cycle_count,
+            cycle_count: cycle_count,
+            cycle_count_percentage: percentage.round(1),
+            thresholds: thresholds,
+            battery_temp: get_battery_temp
+          }
+          return stats
+        end
+      end
+
+      def get_battery_charge_info
+        cur_max = cur_max_capacity.to_f
+        ori_max = ori_max_capacity.to_f
+
+        percentage = (cur_max / ori_max)*100
+
+        per_thresholds = [0.95, 0.85, 0.65, 0.45]
+        cur_thresholds = Utils.abs_thresholds(per_thresholds, cur_max)
+        ori_thresholds = Utils.abs_thresholds(per_thresholds, ori_max)
+
+        charge = get_battery_charge
+        result = charge ? "#{charge}%" : "Unknown"
+
+        stats = {
+          cur_charge: cur_capacity,
+          cur_charge_percentage: charge,
+          original_max_capacity: ori_max,
+          current_max_capacity: cur_max
+        }
+      end
+
       # Prints the battery cycle count info
       #
       def cycle_count
