@@ -24,6 +24,10 @@ module IStats
         @display_scale = false
       end
 
+      def get_temperature_scale
+        @temperature_scale
+      end
+
       def set_temperature_scale(scale)
         @temperature_scale = scale
       end

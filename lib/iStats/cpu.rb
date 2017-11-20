@@ -31,7 +31,7 @@ module IStats
         t = get_cpu_temp
         thresholds = [50, 68, 80, 90]
         value, scale = Printer.parse_temperature(t)
-        if scale == "#{Symbols.degree}F"
+        if Printer.get_temperature_scale == 'fahrenheit'
           thresholds.map! { |t| Utils.to_fahrenheit(t) }
         end
         Printer.print_item_line("CPU temp", value, scale, thresholds)
