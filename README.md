@@ -59,10 +59,10 @@ If you are running an older version of OS X and the install fails you might want
 
 ## Advanced usage
 
-iStats now supports extra sensors for advanced users. Here's how to enable that functionality: 
+iStats now supports extra sensors for advanced users. Here's how to enable that functionality:
 
 1. Run `istats scan` to scan your computer for SMC sensors
-2. Enable extra sensors by running `istats enable key` or `istats enable all` 
+2. Enable extra sensors by running `istats enable key` or `istats enable all`
 3. Run `istats` or `istats extra` to see the extra sensors information.
 
 ## Contributing
@@ -75,21 +75,31 @@ iStats now supports extra sensors for advanced users. Here's how to enable that 
 
 #### Tested on
 
-MacBook Pro 2011
-OS X: 10.11.6
-Ruby: 2.0.0
-
-MacBook Pro 2012    
-OS X: 10.9.3    
-Ruby: 1.9.3, 2.0.0, 2.1.1    
-
-MacBook Pro 2014    
-OS X: 10.10.3, 10.10.4    
-Ruby: 2.1.3    
-
-Mac Pro 2013
-OS X: 10.12.6
-Ruby: 2.0.0
+<details>
+  <summary>Click to expand</summary>
+  <p>
+    <br>
+    MacBook Pro 2016    
+    macOS: 10.12.6    
+    Ruby: 2.4.1    
+    <br>
+    MacBook Pro 2011    
+    OS X: 10.11.6    
+    Ruby: 2.0.0    
+    <br>
+    MacBook Pro 2012    
+    OS X: 10.9.3    
+    Ruby: 1.9.3, 2.0.0, 2.1.1    
+    <br>
+    MacBook Pro 2014    
+    OS X: 10.10.3, 10.10.4    
+    Ruby: 2.1.3    
+    <br>
+    Mac Pro 2013    
+    OS X: 10.12.6    
+    Ruby: 2.0.0
+  </p>
+</details>   
 
 #### Zabbix Integration
 
