@@ -1,5 +1,5 @@
 # coding: utf-8
-require 'rake'
+# require 'rake'
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -21,7 +21,7 @@ spec = Gem::Specification.new do |s|
   s.require_paths = ["lib", "ext"]
 
   s.platform = Gem::Platform::RUBY
-  s.extensions = FileList["ext/**/extconf.rb"]
+  s.extensions = "ext/osx_stats/extconf.rb"
 
   s.required_ruby_version = ">= 1.9.3"
 

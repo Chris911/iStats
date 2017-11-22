@@ -35,6 +35,15 @@ module IStats
         get_fan_number
       end
 
+      def get_fan_speeds
+        fanNum = fan_number
+        fan_speeds = (0..(fanNum-1)).map do |number|
+          speed = get_fan_speed(number)
+          speed = speed.round unless speed.nil?
+          [(number + 1), speed]
+        end
+      end
+
       # Print number of fan(s)
       #
       def print_fan_number

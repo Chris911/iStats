@@ -19,17 +19,24 @@ module IStats
         end
       end
 
+      def thresholds
+        [50, 68, 80, 90]
+      end
+
       # Call all functions (stats)
       #
       def all
         cpu_temperature
       end
 
+      def temperature
+        get_cpu_temp
+      end
+
       # Print CPU temperature with sparkline
       #
       def cpu_temperature
-        t = get_cpu_temp
-        thresholds = [50, 68, 80, 90]
+        t = temperature
         value, scale = Printer.parse_temperature(t)
         if Printer.get_temperature_scale == 'fahrenheit'
           thresholds.map! { |t| Utils.to_fahrenheit(t) }
