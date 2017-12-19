@@ -109,7 +109,11 @@ module IStats
               key = "T#{l1}#{l2}#{l3}"
               t = is_key_supported(key);
               if (t != 0.0)
-                sensors['thresholds'] = [50, 68, 80, 90]
+                thresholds = [50, 68, 80, 90]
+                if Printer.get_temperature_scale == 'fahrenheit'
+                  thresholds.map! { |t| Utils.to_fahrenheit(t) }
+                end
+                sensors['thresholds'] = thresholds
                 sensors['name'] = name(key)
                 sensors['enabled'] = 0
 
@@ -136,7 +140,7 @@ module IStats
               key = "T#{l1}#{l2}#{l3}"
               if (name(key) != 'Unknown') && (name(key) != '')
                 t = is_key_supported(key);
-                if (t > 0) 
+                if (t > 0)
                   item = {'{#KEY}' => key, '{#NAME}' => name(key)}
                   items.push(item)
                 end
