@@ -36,13 +36,15 @@
 #define DATATYPE_UINT16       "ui16"
 #define DATATYPE_UINT32       "ui32"
 #define DATATYPE_SP78         "sp78"
+#define DATATYPE_FLT          "flt "
 
 // key values
 #define SMC_KEY_CPU_TEMP      "TC0P"
 #define SMC_KEY_FAN_SPEED     "F%dAc"
+#define SMC_KEY_MIN_FAN_SPEED "F%dMn"
+#define SMC_KEY_MAX_FAN_SPEED "F%dMx"
 #define SMC_KEY_FAN_NUM       "FNum"
 #define SMC_KEY_BATTERY_TEMP  "TB0T"
-
 
 typedef struct {
     char                  major;
@@ -88,6 +90,11 @@ typedef struct {
     UInt32Char_t            dataType;
     SMCBytes_t              bytes;
 } SMCVal_t;
+
+typedef union _data {
+    float f;
+    char  b[4];
+} fltUnion;
 
 // prototypes
 float SMCGetFanSpeed(int fanNum);

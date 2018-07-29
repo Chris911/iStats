@@ -44,22 +44,14 @@ UInt32 _strtoul(char *str, int size, int base)
     return total;
 }
 
-float _strtof(unsigned char *str, int size, int e)
-{
-    float total = 0;
-    int i;
+float _flttof(unsigned char *str) {
+    fltUnion flt;
+    flt.b[0] = str[0];
+    flt.b[1] = str[1];
+    flt.b[2] = str[2];
+    flt.b[3] = str[3];
 
-    for (i = 0; i < size; i++)
-    {
-        if (i == (size - 1))
-            total += (str[i] & 0xff) >> e;
-        else
-            total += str[i] << (size - 1 - i) * (8 - e);
-    }
-
-	total += (str[size-1] & 0x03) * 0.25;
-
-    return total;
+    return flt.f;
 }
 
 void _ultostr(char *str, UInt32 val)
@@ -193,11 +185,25 @@ float SMCGetFanSpeed(int fanNum)
 {
     SMCVal_t val;
     kern_return_t result;
-
     UInt32Char_t  key;
     sprintf(key, SMC_KEY_FAN_SPEED, fanNum);
+
     result = SMCReadKey(key, &val);
-    return _strtof(val.bytes, val.dataSize, 2);
+    if (result == kIOReturnSuccess) {
+        // read succeeded - check returned value
+        if (val.dataSize > 0) {
+            if (strcmp(val.dataType, DATATYPE_FPE2) == 0) {
+                // convert fpe2 value to rpm
+                int intValue = (unsigned char)val.bytes[0] * 256 + (unsigned char)val.bytes[1];
+                return intValue / 4.0;
+            } else if (strcmp(val.dataType, DATATYPE_FLT) == 0) {
+                // 2018 models have the ftp type for this key
+                return _flttof((unsigned char *)val.bytes);
+            }
+        }
+    }
+    // read failed
+    return 0.0;
 }
 
 int SMCGetFanNumber(char *key)
@@ -327,10 +333,9 @@ VALUE BATTERY_STATS = Qnil;
  * We never call this, Ruby does.
 */
 void Init_osx_stats() {
-    
     SMC_INFO = rb_define_module("SMC_INFO");
     rb_define_method(SMC_INFO,"is_key_supported",method_SMCKeySupported,1);
-    
+
     CPU_STATS = rb_define_module("CPU_STATS");
     rb_define_method(CPU_STATS, "get_cpu_temp", method_get_cpu_temp, 0);
 
@@ -347,13 +352,12 @@ void Init_osx_stats() {
     rb_define_method(BATTERY_STATS, "get_battery_charge", method_get_battery_charge, 0);
 }
 
-VALUE method_SMCKeySupported(VALUE self, VALUE key)
-{
+VALUE method_SMCKeySupported(VALUE self, VALUE key) {
     char *keyString = RSTRING_PTR(key);
     SMCOpen();
     double temp = SMCGetTemperature(keyString);
     SMCClose();
-    
+
     return rb_float_new(temp);
 }
 
