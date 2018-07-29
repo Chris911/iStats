@@ -37,7 +37,7 @@ module IStats
       # thresholds - must be an array of size 4 containing the threshold values
       #              for the sparkline colors
       #
-      # If the values in the thresholds array are descending, treat 100& as 
+      # If the values in the thresholds array are descending, treat 100% as
       # good (green) instead of bad (red)
       #
       def gen_sparkline(value, thresholds)
@@ -114,7 +114,7 @@ module IStats
         end
       end
 
-      # Converts the value to the class temperature_scale with 
+      # Converts the value to the class temperature_scale with
       # accompanying scale string.
       #
       def parse_temperature(temperature)
@@ -153,7 +153,7 @@ module IStats
 
         if @display_labels
           format = "%-"+LABEL_WIDTH.to_s + "s"
-          printf("%-" + LABEL_WIDTH.to_s + "s", label + ":")
+          printf("%-" + LABEL_WIDTH.to_s + "s", label + ": ")
         end
 
         printf("%-" + full_value_width.to_s + "s", full_value)

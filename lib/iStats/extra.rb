@@ -53,6 +53,10 @@ module IStats
 
         thresholds = sensor['thresholds'][1..-2].split(/, /).map { |s| s.to_i }
 
+        if Printer.get_temperature_scale == 'fahrenheit'
+          thresholds.map! { |t| Utils.to_fahrenheit(t) }
+        end
+
         if (display)
           # Invoked if settings has an AltDisplay?
           puts "#{Printer.format_label("#{key}")}" +
