@@ -53,6 +53,7 @@ If you are running an older version of OS X and the install fails you might want
   --no-scale                           Display just the stat value
   --value-only                         No graph, label, or scale
   -f, --fahrenheit                     Display temperatures in fahrenheit
+  -c, --celcius                        Display temperatures in celcius (default)
 
   for more help see: https://github.com/Chris911/iStats
 ```
@@ -64,6 +65,15 @@ iStats now supports extra sensors for advanced users. Here's how to enable that 
 1. Run `istats scan` to scan your computer for SMC sensors
 2. Enable extra sensors by running `istats enable key` or `istats enable all`
 3. Run `istats` or `istats extra` to see the extra sensors information.
+
+The temperature scale can be configured persistently by adding a section to `~/.iStats/sensors.conf` like this:
+
+```
+[app_config]
+temperature_scale = fahrenheit
+```
+
+The valid values are 'fahrenheit' and 'celcius' (which is the default) and can be overridden using the corresponding command line options.
 
 ## Contributing
 
