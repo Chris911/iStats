@@ -81,6 +81,8 @@ module IStats
           'TM0P' => 'Memory Slot Proximity',
           'TM0S' => 'Memory Slot 1',
           'Tm0p' => 'Misc (clock chip) Proximity',
+          'TN0D' => 'MCP Die',
+          'TN0P' => 'MCP Proximity',
           'TO0P' => 'Optical Drive Proximity',
           'Tp0P' => 'PowerSupply Proximity',
           'TPCD' => 'Platform Controller Hub Die',
