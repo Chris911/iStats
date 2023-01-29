@@ -2,7 +2,7 @@ module IStats
   class Settings
     require 'parseconfig'
     @configFile = "sensors.conf"
-    @configDir = File.expand_path("~/.iStats") + "/"
+    @configDir = File.expand_path("~/.config/iStats") + "/"
 
     class << self
 
