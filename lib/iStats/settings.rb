@@ -26,7 +26,7 @@ module IStats
       end
 
       def load
-        if File.exists?(@configDir + @configFile)
+        if File.exist?(@configDir + @configFile)
           $config = ParseConfig.new(@configDir + @configFile)
         else
            $config = ParseConfig.new
@@ -34,11 +34,11 @@ module IStats
       end
 
       def configFileExists
-        if File.exists?(@configDir + @configFile)
+        if File.exist?(@configDir + @configFile)
           $config = ParseConfig.new(@configDir + @configFile)
         else
           puts "No config file #{@configDir}#{@configFile} found .. Run scan"
-          if !File.exists?(@configDir)
+          if !File.exist?(@configDir)
             Dir.mkdir( @configDir)
           end
           file=File.open(@configDir + @configFile,"w+")
@@ -69,7 +69,7 @@ module IStats
       end
 
       def toggleAll(value)
-        if File.exists?(@configDir + @configFile)
+        if File.exist?(@configDir + @configFile)
           settings = ParseConfig.new(@configDir + @configFile)
           settings.params.keys.each{ |key|
             if (settings.params[key]['enabled'])
@@ -85,7 +85,7 @@ module IStats
       end
 
       def list
-        if File.exists?(@configDir + @configFile)
+        if File.exist?(@configDir + @configFile)
           settings = ParseConfig.new(@configDir + @configFile)
           settings.params.keys.each{ |key|
             if (settings[key]['enabled'])
