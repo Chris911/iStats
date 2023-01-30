@@ -88,7 +88,7 @@ module IStats
           :display_graphs => true,
           :display_labels => true,
           :display_scale => true,
-          :temperature_scale => 'celcius',
+          :temperature_scale => ($config.params.dig('app_config', 'temperature_scale') || 'celcius').downcase
         }
 
         opt_parser = OptionParser.new do |opts|
@@ -122,6 +122,10 @@ module IStats
 
           opts.on('-f', '--fahrenheit', 'Display temperatures in fahrenheit') do
             options[:temperature_scale] = 'fahrenheit'
+          end
+
+          opts.on('-c', '--celcius', 'Display temperatures in celcius (default)') do
+            options[:temperature_scale] = 'celcius'
           end
         end
 
@@ -175,6 +179,7 @@ module IStats
           --no-scale                           Display just the stat value
           --value-only                         No graph, label, or scale
           -f, --fahrenheit                     Display temperatures in fahrenheit
+          -c, --celcius                        Display temperatures in celcius (default)
 
           for more help see: https://github.com/Chris911/iStats
         ".gsub(/^ {8}/, '') # strip the first eight spaces of every line
