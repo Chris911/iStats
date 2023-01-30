@@ -12,13 +12,13 @@ module IStats
           if (stat[1] == 'all')
             toggleAll("1")
           else
-            set(stat[1], "1")
+            stat[1..-1].each { |x| set(x, "1") }
           end
         when 'disable'
           if (stat[1] == 'all')
             toggleAll("0")
           else
-            set(stat[1], "0")
+            stat[1..-1].each { |x| set(x, "0") }
           end
         else
           puts "Unknown command"
