@@ -77,6 +77,7 @@ module IStats
           'TG1H' => 'GPU 1 Heatsink',
           'TH0P' => 'Harddisk 0 Proximity',
           'Th1H' => 'NB/CPU/GPU HeatPipe 1 Proximity',
+          'Th2H' => 'NB/CPU/GPU HeatPipe 2 Proximity',
           'TL0P' => 'LCD Proximity',
           'TM0P' => 'Memory Slot Proximity',
           'TM0S' => 'Memory Slot 1',
@@ -84,11 +85,14 @@ module IStats
           'TO0P' => 'Optical Drive Proximity',
           'Tp0P' => 'PowerSupply Proximity',
           'TPCD' => 'Platform Controller Hub Die',
+          'TP0P' => 'Platform Controller Hub Proximity',
           'TS0C' => 'Expansion slots',
           'Ts0P' => 'Palm rest L',
           'Ts0S' => 'Memory Bank Proximity',
+          'Ts1S' => 'Memory Bank 2 Proximity',
           'Ts1p' => 'Palm rest R',
-          'TW0P' => 'AirPort Proximity'
+          'TW0P' => 'AirPort Proximity',
+          'TH0a' => 'SSD temperature'
         }
 
         return sensors_name.fetch(key,"Unknown")
