@@ -281,12 +281,23 @@ const char* getBatteryHealth() {
     if(powerSourceInformation == NULL)
         return "Unknown";
 
-    CFStringRef batteryHealthRef = (CFStringRef) CFDictionaryGetValue(powerSourceInformation, CFSTR("BatteryHealth"));
+    CFStringRef batteryHealthRef = (CFStringRef) CFDictionaryGetValue(powerSourceInformation, CFSTR(kIOPSBatteryHealthKey));
 
-    const char *batteryHealth = CFStringGetCStringPtr(batteryHealthRef, // CFStringRef theString,
-                                                kCFStringEncodingMacRoman); //CFStringEncoding encoding);
-    if(batteryHealth == NULL)
-        return "unknown";
+    const char *batteryHealth = CFStringGetCStringPtr(batteryHealthRef, kCFStringEncodingMacRoman);
+
+    if(batteryHealth == NULL) {
+        CFIndex length = CFStringGetLength(batteryHealthRef);
+        CFIndex bufSize = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingMacRoman) + 1;
+        char *buffer = (char *)malloc(bufSize);
+
+        if (CFStringGetCString(batteryHealthRef, buffer, bufSize, kCFStringEncodingMacRoman)) {
+            return buffer;
+        }
+
+        free(buffer);
+
+        return "Unknown";
+    }
 
     return batteryHealth;
 }
